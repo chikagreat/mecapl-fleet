@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MECAPL On-Demand Intake Portal</title>
+    <style>
+        :root { --primary-burgundy: #800020; --clinical-blue: #002366; --accent-gold: #ffaa00; --success-green: #2e7d32; --bg-dark: #0a0a0a; --card-bg: #141414; --text-light: #f8f9fa; --border-muted: #222222; }
+        body { font-family: sans-serif; background-color: var(--bg-dark); color: var(--text-light); margin: 0; padding: 12px; display: flex; flex-direction: column; align-items: center; }
+        .canvas-container { background: var(--card-bg); border-top: 6px solid var(--primary-burgundy); border-radius: 12px; padding: 20px; max-width: 440px; width: 100%; box-sizing: border-box; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .header-main { text-align: center; border-bottom: 1px solid var(--border-muted); padding-bottom: 12px; margin-bottom: 15px; }
+        .brand-title { color: #ffffff; font-size: 1.4rem; font-weight: 800; }
+        .section-title { font-size: 0.85rem; color: var(--accent-gold); text-transform: uppercase; font-weight: bold; margin: 15px 0 8px 0; border-bottom: 1px solid var(--border-muted); padding-bottom: 4px; }
+        .form-label { display: block; font-size: 0.72rem; color: #aaaaaa; margin-bottom: 4px; font-weight: bold; text-transform: uppercase; margin-top: 10px; }
+        .form-input, .form-select, .form-textarea { width: 100%; padding: 10px; background: #1e1e1e; border: 1px solid var(--border-muted); border-radius: 6px; color: #ffffff; font-size: 0.88rem; box-sizing: border-box; }
+        .momo-btn { display: flex; align-items: center; justify-content: center; background: #1e1e1e; border: 1px solid #333; padding: 12px; border-radius: 6px; font-weight: bold; margin-bottom: 10px; font-size: 0.85rem; }
+        .phase-panel { display: none; background: #111; border: 1px solid var(--border-muted); border-radius: 8px; padding: 14px; margin-top: 15px; }
+        .summary-box { background: #0a0a0a; padding: 12px; border-radius: 6px; font-size: 0.82rem; margin: 15px 0; border-left: 3px solid var(--accent-gold); line-height: 1.5; }
+        .action-btn { background-color: var(--primary-burgundy); color: white; border: none; width: 100%; padding: 12px; font-size: 0.9rem; font-weight: bold; border-radius: 6px; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
+        .test-pill { display: inline-flex; align-items: center; gap: 6px; background: #2a1518; border: 1px solid var(--primary-burgundy); padding: 5px 10px; border-radius: 20px; font-size: 0.78rem; margin: 4px; color: #ff9999; }
+        .test-pill span { cursor: pointer; color: var(--accent-gold); font-weight: bold; }
+    </style>
+    <script>
+        let basePrice = 1500; let selectedRoute = "Standard Baseline Check"; let addonTotal = 0; let selectedTests = [];
+        function updateBase() {
+            const select = document.getElementById('baseRouteDropdown');
+            const [name, price] = select.value.split('|');
+            basePrice = parseInt(price); selectedRoute = name; updateTotal();
+        }
+        function proceedToPhaseTwo() {
+            const name = document.getElementById('ptName').value.trim();
+            const location = document.getElementById('ptLocation').value.trim();
+            if (!name || !location) { alert('Please enter Patient Name and Location.'); return; }
+            document.getElementById('phase1Block').style.display = 'none';
+            document.getElementById('phase2Block').style.display = 'block';
+            document.getElementById('displayPatientName').innerText = name.toUpperCase();
+            document.getElementById('summaryBaseName').innerText = selectedRoute;
+            document.getElementById('summaryBaseCost').innerText = 'D ' + basePrice.toLocaleString() + '.00 GMD';
+            updateTotal();
+        }
+        function addTest() {
+            const select = document.getElementById('testDropdown'); if (!select.value) return;
+            const [name, price] = select.value.split('|'); const testPrice = parseInt(price);
+            if (selectedTests.some(item => item.name === name)) { alert('Assay profile already appended.'); return; }
+            selectedTests.push({ name: name, price: testPrice }); addonTotal += testPrice;
+            renderPills(); updateTotal(); select.selectedIndex = 0;
+        }
+        function removeTest(index) { addonTotal -= selectedTests[index].price; selectedTests.splice(index, 1); renderPills(); updateTotal(); }
+        function renderPills() {
+            const container = document.getElementById('pillsContainer'); container.innerHTML = '';
+            selectedTests.forEach((test, index) => { container.innerHTML += `<div class="test-pill">🧬 ${test.name} (D ${test.price}) <span onclick="removeTest(${index})">×</span></div>`; });
+        }
+        function updateTotal() { document.getElementById('checkoutTotalDisplay').innerText = 'D ' + (basePrice + addonTotal).toLocaleString() + '.00 GMD'; }
+        function runAIEngine() {
+            const complaints = document.getElementById('symptomsText').value.toLowerCase();
+            const box = document.getElementById('aiSuggestionBox'); const txt = document.getElementById('aiSuggestionText');
+            if (!complaints) { alert('Please capture symptoms first.'); return; } box.style.display = 'block';
+            if (complaints.includes('chest') || complaints.includes('heart') || complaints.includes('breath')) {
+                txt.innerHTML = `⚠️ *AI Intercept:* Appended Finecare® Cardiac Markers Panel (+D 3,500) & Urgent ECG routing to Westfield Clinic Hub.`;
+                if (!selectedTests.some(t => t.name === 'Finecare® Cardiac Combo')) { selectedTests.push({ name: 'Finecare® Cardiac Combo', price: 3500 }); addonTotal += 3500; renderPills(); updateTotal(); }
+            } else { txt.innerHTML = `✓ *AI Intercept:* Symptoms compliant with monitoring baseline parameters.`; }
+        }
+        function dispatchOrder() {
+            const name = document.getElementById('ptName').value.trim(); const token = document.getElementById('momoToken').value.trim();
+            if (!token) { alert('Please input your Wave reference token hash.'); return; }
+            let testStr = selectedTests.length > 0 ? selectedTests.map(t => t.name).join(', ') : 'None Added (Base Only)';
+            const payload = `🔬 *MECAPL HEALTHCARE: ACTIVE VIP DISPATCH*\n----------------------------\n• *Patient:* ${name}\n• *Route Chosen:* ${selectedRoute}\n• *Appended Assays:* ${testStr}\n• *Payment Token Reference:* ${token}\n• *TOTAL CLEARING POOL:* ${(basePrice + addonTotal).toLocaleString()}.00 GMD`;
+            window.open(`https://wa.me{encodeURIComponent(payload)}`, '_blank');
+        }
+    </script>
+</head>
+<body>
+    <div class="canvas-container">
+        <div class="header-main">
+            <div class="brand-title">🔬 MECAPL HEALTHCARE</div>
+            <div style="color: var(--accent-gold); font-size: 0.72rem; font-weight: bold; text-transform: uppercase; margin-top: 4px;">Premium Doorstep Extraction Portal</div>
+        </div>
+        <div id="phase1Block">
+            <div class="section-title">📝 STEP 1: On-Demand Patient Profile</div>
+            <label class="form-label">Full Name of Patient</label>
+            <input type="text" id="ptName" class="form-input" placeholder="e.g. Adama Bojang">
+            <label class="form-label">Select Diagnostic Baseline Package</label>
+            <select id="baseRouteDropdown" class="form-select" onchange="updateBase()">
+                <option value="Standard Baseline Check|1500">Standard Baseline Check (FBC+RDT+RBS+Uri) - D 1,500</option>
+                <option value="VIP Holistic Health Assessment Suite|2500">VIP Holistic Health Assessment Suite - D 2,500</option>
+            </select>
+            <label class="form-label">Doorstep Delivery Location Coordinates</label>
+            <input type="text" id="ptLocation" class="form-input" placeholder="e.g. Westfield Corridor">
+            <label class="form-label">Type Symptoms / Feelings (Duration)</label>
+            <textarea id="ptSymptoms" class="form-textarea" rows="2" placeholder="e.g. Clinical history parameters..."></textarea>
+            <button type="button" class="action-btn" onclick="proceedToPhaseTwo()">⚙️ Validate Allocation & Open Selection Core ➔</button>
+        </div>
+        <div id="phase2Block">
+            <div class="section-title">👤 Patient Name: <span id="displayPatientName" style="color:#fff;"></span></div>
+            <div style="border: 1px solid var(--border-muted); padding: 10px; border-radius: 6px; background: #0a0a0a; margin-bottom: 12px;">
+                <label class="form-label" style="color:var(--accent-gold);">✨ AI Clinical Screening Protocol</label>
+                <textarea id="symptomsText" class="form-textarea" rows="2" placeholder="Describe symptoms to check acute risk lines..."></textarea>
+                <button type="button" class="action-btn" style="background-color: var(--clinical-blue); padding: 8px; font-size: 0.75rem; margin-top: 6px;" onclick="runAIEngine()">🛰️ Run AI System Analysis</button>
+                <div id="aiSuggestionBox" style="display:none; background:#111; padding:8px; font-size:0.78rem; margin-top:8px; color:#ddd;"><div id="aiSuggestionText"></div></div>
+            </div>
+            <label class="form-label">➕ Customize Additional Test Request Panel</label>
+            <select id="testDropdown" class="form-select" onchange="addTest()">
+                <option value="">-- Click to Expand Finecare® FIA Menu --</option>
+                <optgroup label="Finecare® Panels Portfolio">
+                    <option value="Finecare® Progesterone Assay|1200">Finecare® Progesterone - D 1,200</option>
+                    <option value="Finecare® LH Assay|1200">Finecare® LH Profile - D 1,200</option>
+                    <option value="Finecare® FSH Assay|1200">Finecare® FSH Profile - D 1,200</option>
+                    <option value="Finecare® AMH Ovarian Reserve|2500">Finecare® AMH Reserve - D 2,500</option>
+                    <option value="Finecare® Prolactin Profile|1400">Finecare® Prolactin - D 1,400</option>
+                    <option value="Finecare® Estrogen Assay|1500">Finecare® Estrogen Profile - D 1,500</option>
+                    <option value="Finecare® Quantitative Beta-hCG|1500">Finecare® Quant Beta-hCG - D 1,500</option>
+                    <option value="Finecare® NT-proBNP Panel|3000">Finecare® NT-proBNP - D 3,000</option>
+                    <option value="Finecare® D-dimer Assay|2000">Finecare® D-dimer Screen - D 2,000</option>
+                    <option value="Finecare® Cardiac Markers Combo|3500">Finecare® Cardiac Combo - D 3,500</option>
+                    <option value="Finecare® CRP/PCT Sepsis Combo|1500">Finecare® CRP/PCT Sepsis - D 1,500</option>
+                    <option value="Finecare® Cortisol Stress Profile|1800">Finecare® Cortisol Profile - D 1,800</option>
+                    <option value="Finecare® Vitamin-D Status Screen|2500">Finecare® Vitamin-D Screen - D 2,500</option>
+                    <option value="Finecare® CEA Tumor Marker|2000">Finecare® CEA Tumor Marker - D 2,000</option>
+                </optgroup>
+            </select>
+            <div id="pillsContainer" style="margin-top: 10px;"></div>
+            <div class="section-title">🔒 STEP 4: Complete On-Line Settlement</div>
+            <div class="momo-btn" style="border-color: #1aa7ec; color: #1aa7ec;">🌊 PAY VIA WAVE WALLET (872159724)</div>
+            <label class="form-label" style="color: var(--accent-gold);">Enter Wave Transaction ID Reference Hash</label>
+            <input type="text" id="momoToken" class="form-input" placeholder="e.g. WAV-TX-88329" required>
+            <div class="summary-box">
+                📋 <strong id="summaryBaseName">Standard Baseline Check</strong>: <span id="summaryBaseCost">D 1,500.00 GMD</span><br>
+                ✨ <span style="color:#00ff00; font-weight:bold;">🚨 TOTAL CHECKOUT LIQUIDITY DUE: <span id="checkoutTotalDisplay">D 1,500.00 GMD</span></span>
+            </div>
+            <button type="button" class="action-btn" style="background-color: var(--success-green);" onclick="dispatchOrder()">🔒 Complete Registration & Dispatch Phlebotomy Node</button>
+        </div>
+    </div>
+</body>
+</html>
