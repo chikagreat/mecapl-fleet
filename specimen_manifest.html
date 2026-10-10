@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MECAPL - Specimen Chain-of-Custody Manifest</title>
+    <style>
+        :root { --primary-burgundy: #800020; --clinical-navy: #002366; --accent-gold: #ffaa00; --bg-dark: #0a0a0a; --card-bg: #141414; --text-light: #f8f9fa; --border-muted: #262626; }
+        body { font-family: monospace, sans-serif; background-color: var(--bg-dark); color: var(--text-light); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
+        .manifest-shell { background: var(--card-bg); border-top: 6px solid var(--primary-burgundy); border-radius: 12px; padding: 20px; max-width: 460px; width: 100%; box-shadow: 0 6px 25px rgba(0,0,0,0.7); box-sizing: border-box; }
+        .manifest-header { text-align: center; border-bottom: 2px dashed #444; padding-bottom: 12px; margin-bottom: 15px; }
+        .log-row { background: #1c1c1c; border: 1px solid var(--border-muted); border-radius: 6px; padding: 12px; margin-bottom: 10px; font-size: 0.78rem; line-height: 1.4; }
+        .param-highlight { color: var(--accent-gold); font-weight: bold; }
+        .temp-badge { float: right; background: #142217; border: 1px solid #1f3d23; color: #3cd070; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="manifest-shell">
+        <div class="manifest-header">
+            <h3 style="margin:0; color:#fff; letter-spacing:1px;">🔬 MECAPL LOGISTICS</h3>
+            <span style="font-size:0.68rem; color:var(--accent-gold); text-transform:uppercase; font-weight:bold;">Specimen Chain-of-Custody Manifest</span>
+        </div>
+
+        <div style="font-size:0.75rem; color:#aaa; margin-bottom:15px; text-transform:uppercase; text-align:center;">
+            • Fleet Node: <strong>Bajaj Boxer 150cc (Node 01)</strong><br>
+            • Chamber Status: Insulated Cargo Box Secured [INDEX]
+        </div>
+
+        <!-- Specimen Node 1 -->
+        <div class="log-row">
+            <span class="temp-badge">❄️ 4.2°C Secure</span>
+            <strong>BARCODE: <code>MEC-EDTA-9044</code></strong><br>
+            • Patient Matrix: <span class="param-highlight">Adama Bojang</span><br>
+            • Draw Timestamp: Oct 09, 2026 - 12:44 AM GMT [INDEX]<br>
+            • Container Profile: K3-EDTA Tube (Item 01) [INDEX]<br>
+            • Transit Custody: Logged via Chinedu Cyriacus Ndukwu, ASCPi [INDEX]
+        </div>
+
+        <!-- Specimen Node 2 -->
+        <div class="log-row">
+            <span class="temp-badge">❄️ 3.8°C Secure</span>
+            <strong>BARCODE: <code>MEC-PLN-9045</code></strong><br>
+            • Patient Matrix: <span class="param-highlight">Away Darboe</span><br>
+            • Draw Timestamp: Oct 09, 2026 - 01:05 AM GMT [INDEX]<br>
+            • Container Profile: Plain Clot Activator Serum Tube [INDEX]<br>
+            • Dispatch Target: JOBOT Reference Bench (Westfield Hub) [INDEX]
+        </div>
+
+        <div style="margin-top:20px; text-align:center; font-size:0.62rem; color:#555; border-top:1px solid #222; padding-top:8px; font-weight:bold; text-transform:uppercase; letter-spacing:0.5px;">
+            MECAPL Cold-Chain Validation Layer • GAMP-5 Compliance Standard
+        </div>
+    </div>
+</body>
+</html>

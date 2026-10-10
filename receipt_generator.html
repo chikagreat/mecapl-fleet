@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MECAPL - Patient Receipt Generator</title>
+    <style>
+        :root { --primary-burgundy: #800020; --clinical-blue: #002366; --accent-gold: #ffaa00; --bg-dark: #0a0a0a; --card-bg: #141414; --text-light: #f8f9fa; --border-muted: #222222; }
+        body { font-family: monospace, sans-serif; background-color: var(--bg-dark); color: var(--text-light); padding: 15px; display: flex; flex-direction: column; align-items: center; }
+        .receipt-shell { background: var(--card-bg); border-top: 6px solid var(--primary-burgundy); border-radius: 12px; padding: 20px; max-width: 440px; width: 100%; box-shadow: 0 4px 15px rgba(0,0,0,0.6); box-sizing: border-box; }
+        .receipt-header { text-align: center; border-bottom: 2px dashed #333; padding-bottom: 12px; margin-bottom: 15px; }
+        .invoice-card { background: #1a1a1a; border: 1px solid var(--border-muted); border-radius: 6px; padding: 12px; margin-bottom: 10px; font-size: 0.8rem; line-height: 1.4; }
+        .status-paid { color: #00ff00; font-weight: bold; float: right; text-transform: uppercase; }
+        .param-highlight { color: var(--accent-gold); }
+    </style>
+</head>
+<body>
+    <div class="receipt-shell">
+        <div class="receipt-header">
+            <h3 style="margin:0; color:#fff;">🔬 MECAPL HEALTHCARE SERVICES</h3>
+            <span style="font-size:0.7rem; color:var(--accent-gold); text-transform:uppercase;">Official Patient Digital Receipt Engine</span>
+        </div>
+
+        <div class="invoice-card">
+            <span class="status-paid">✓ Settled</span>
+            <strong>RECEIPT ID: REC-2026-9082</strong><br>
+            • Patient Name: <span class="param-highlight">ADAMA BOJANG</span><br>
+            • Diagnostic Route: Standard Baseline Check<br>
+            • Appended Assays: None Added (Base Only)<br>
+            • Wave Token Reference: <code>WAV-TX-88421</code><br>
+            • Logistical Extraction Fee: Included<br>
+            • ----------------------------------------<br>
+            • <strong style="color:#00ff00; font-size:0.9rem;">TOTAL CASH POWER CLEARED: 1,500.00 GMD</strong>
+        </div>
+
+        <div style="margin-top:20px; text-align:center; font-size:0.65rem; color:#444; border-top:1px solid #222; padding-top:8px; font-weight:bold; text-transform:uppercase; letter-spacing:0.5px;">
+            MECAPL FINTECH LAYER • thank you for choosing doorstep excellence
+        </div>
+    </div>
+</body>
+</html>

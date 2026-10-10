@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MECAPL Consumables Storefront</title>
+    <style>
+        :root { --primary-burgundy: #800020; --accent-gold: #ffaa00; --success-green: #2e7d32; --bg-dark: #0a0a0a; --card-bg: #141414; --text-light: #f8f9fa; --border-muted: #222222; }
+        body { font-family: sans-serif; background-color: var(--bg-dark); color: var(--text-light); margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
+        .store-container { background: var(--card-bg); border-top: 6px solid var(--primary-burgundy); border-radius: 12px; padding: 16px; max-width: 440px; width: 100%; box-sizing: border-box; }
+        .header-main { text-align: center; border-bottom: 1px solid #333; padding-bottom: 12px; margin-bottom: 15px; }
+        .brand-title { color: #ffffff; font-size: 1.25rem; font-weight: 800; }
+        .product-card { background: #1c1c1c; border: 1px solid #333; border-radius: 8px; padding: 12px; margin-bottom: 12px; position: relative; }
+        .item-number { position: absolute; top: 10px; left: 10px; background: var(--primary-burgundy); color: white; font-weight: bold; font-size: 0.75rem; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--accent-gold); }
+        .product-title { font-size: 0.95rem; font-weight: bold; color: #ffffff; margin-bottom: 4px; padding-left: 35px; }
+        .product-meta { font-size: 0.8rem; color: #aaaaaa; line-height: 1.4; margin-bottom: 10px; }
+        .price-tag { color: #00ff00; font-weight: bold; }
+        .stock-badge { font-size: 0.72rem; font-weight: bold; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 10px; background: #113318; color: #33ff44; border: 1px solid #185522; }
+        .buy-btn { background-color: var(--primary-burgundy); color: white; border: none; padding: 10px; font-size: 0.85rem; font-weight: bold; border-radius: 6px; cursor: pointer; text-transform: uppercase; width: 100%; text-align: center; }
+        .checkout-drawer { display: none; background: #111; border: 1px solid #333; border-radius: 8px; padding: 14px; margin-top: 10px; }
+        .form-label { display: block; font-size: 0.7rem; color: #aaaaaa; margin-bottom: 4px; font-weight: bold; text-transform: uppercase; margin-top: 8px; }
+        .form-input, .form-select { width: 100%; padding: 10px; background: #1e1e1e; border: 1px solid #333; border-radius: 6px; color: #ffffff; font-size: 0.85rem; box-sizing: border-box; margin-bottom: 10px; }
+        .summary-box { background: #0a0a0a; padding: 10px; border-radius: 6px; font-size: 0.8rem; margin: 12px 0; border-left: 3px solid var(--accent-gold); line-height: 1.5; }
+    </style>
+    <script>
+        let currentProduct = {};
+        function openCheckout(itemNo, name, basePrice, stockId, weightClass) {
+            currentProduct = { itemNo, name, basePrice, stockId, weightClass };
+            document.getElementById('checkoutDrawer').style.display = 'block';
+            document.getElementById('drawerProductTitle').innerText = '🛍️ ACQUISITION: ITEM #' + itemNo + ' - ' + name;
+            document.getElementById('unitPriceInput').value = basePrice + ' GMD';
+            calculateTotals();
+            document.getElementById('checkoutDrawer').scrollIntoView({ behavior: 'smooth' });
+        }
+        function calculateTotals() {
+            const qty = parseInt(document.getElementById('orderQty').value) || 1;
+            const subtotal = currentProduct.basePrice * qty;
+            const loc = document.getElementById('deliveryLocation').value;
+            let deliveryCharge = loc === 'far' ? 300 : 250;
+            if (currentProduct.weightClass === 'heavy') deliveryCharge += 50;
+            document.getElementById('summaryQty').innerText = qty;
+            document.getElementById('summaryDelivery').innerText = deliveryCharge + ' GMD';
+            document.getElementById('summaryTotal').innerText = (subtotal + deliveryCharge).toLocaleString() + '.00 GMD';
+        }
+        function routeDirectOrderToWhatsApp() {
+            const buyer = document.getElementById('buyerName').value.trim();
+            const phone = document.getElementById('buyerPhone').value.trim();
+            const customLoc = document.getElementById('customAddress').value.trim();
+            const qty = document.getElementById('orderQty').value;
+            const locSelect = document.getElementById('deliveryLocation');
+            const locName = locSelect.options[locSelect.selectedIndex].text;
+            if(!buyer || !phone || !customLoc) { alert('Please enter all buyer contact and physical drop coordinates.'); return; }
+            let deliveryCharge = locSelect.value === 'far' ? 300 : 250;
+            if (currentProduct.weightClass === 'heavy') deliveryCharge += 50;
+            const netPrice = (currentProduct.basePrice * qty) + deliveryCharge;
+            const whatsappText = `📦 *MECAPL NETWORKS: STOREFRONT PROCUREMENT*\n----------------------------\n• *Item Number:* #${currentProduct.itemNo}\n• *Product:* ${currentProduct.name}\n• *Buyer:* ${buyer}\n• *Phone:* ${phone}\n• *Volume:* ${qty} Unit(s)\n• *Transit Zone:* ${locName}\n• *Address:* ${customLoc}\n• *Delivery Cost:* ${deliveryCharge} GMD\n• *TOTAL VALUE CLEARING DUE:* ${netPrice.toLocaleString()}.00 GMD`;
+            window.open(`https://wa.me{encodeURIComponent(whatsappText)}`, '_blank');
+        }
+    </script>
+</head>
+<body>
+    <div class="store-container">
+        <div class="header-main">
+            <div class="brand-title">📦 MECAPL MARKETPLACE</div>
+            <div style="color: #aaa; font-size: 0.75rem; margin-top: 3px;">Konga-Style Logistics Procurement Core</div>
+        </div>
+        
+        <div class="product-card">
+            <div class="item-number">ITEM 01</div>
+            <div class="product-title">MECAPL Vacutainer EDTA Tubes</div>
+            <div class="product-meta">Specification: K3 EDTA Tubes (Box of 100)<br>Price: <span class="price-tag">450.00 GMD</span></div>
+            <div class="stock-badge" id="stock01" data-stock="48">✓ 48 Boxes Available in Fleet Vault</div>
+            <button class="buy-btn" onclick="openCheckout('01', 'MECAPL Vacutainer EDTA Tubes', 450, 'stock01', 'light')">🛒 Select Item 01</button>
+        </div>
+
+        <div class="product-card">
+            <div class="item-number">ITEM 02</div>
+            <div class="product-title">Premium Plain Serum Tubes</div>
+            <div class="product-meta">Specification: Clot Activator Red Top (Box of 100)<br>Price: <span class="price-tag">400.00 GMD</span></div>
+            <div class="stock-badge" id="stock02" data-stock="24">✓ 24 Boxes Available in Fleet Vault</div>
+            <button class="buy-btn" onclick="openCheckout('02', 'Premium Plain Serum Tubes', 400, 'stock02', 'light')">🛒 Select Item 02</button>
+        </div>
+
+        <div class="product-card">
+            <div class="item-number">ITEM 03</div>
+            <div class="product-title">Digital Fingerprint Pulse Oximeter Node</div>
+            <div class="product-meta">Specification: High-Precision SpO₂ Telemetry<br>Price: <span class="price-tag">850.00 GMD</span></div>
+            <div class="stock-badge" id="stock03" data-stock="12" style="background:#3a1015; color:#ff3333; border-color:#661118;">⚠️ Only 12 Units Remaining on Bajaj Node</div>
+            <button class="buy-btn" onclick="openCheckout('03', 'Digital Pulse Oximeter Node', 850, 'stock03', 'heavy')">🛒 Select Item 03</button>
+        </div>
+
+        <div id="checkoutDrawer" class="checkout-drawer">
+            <div id="drawerProductTitle" style="font-weight:bold; color:var(--accent-gold); font-size:0.85rem; margin-bottom:10px;"></div>
+            <label class="form-label">Full Name of Buyer / Clinic Manager</label>
+            <input type="text" id="buyerName" class="form-input" placeholder="e.g. John Care Clinic" required>
+            <label class="form-label">Active Contact Mobile Line</label>
+            <input type="text" id="buyerPhone" class="form-input" placeholder="e.g. +220 872159724" required>
+            <div style="display:flex; gap:10px;">
+                <div style="flex:1;">
+                    <label class="form-label">Price Per Unit</label>
+                    <input type="text" id="unitPriceInput" class="form-input" readonly>
+                </div>
+                <div style="flex:1;">
+                    <label class="form-label">Order Quantity</label>
+                    <input type="number" id="orderQty" class="form-input" value="1" min="1" oninput="calculateTotals()" required>
+                </div>
+            </div>
+            <label class="form-label">Select Delivery Transit Zone</label>
+            <select id="deliveryLocation" class="form-select" onchange="calculateTotals()">
+                <option value="near">Serekunda / Westfield Corridor (D 250)</option>
+                <option value="far">Banjul / Coastal Highway / Airport Route (D 300)</option>
+            </select>
+            <label class="form-label">Detailed Physical Drop Address</label>
+            <input type="text" id="customAddress" class="form-input" placeholder="e.g. Opposite Latrikunda School" required>
+            <div class="summary-box">
+                📦 <strong>Total Package Bundles:</strong> <span id="summaryQty">1</span> unit(s)<br>
+                🚚 <strong>Logistical Transit Cost:</strong> <span id="summaryDelivery">250.00 GMD</span><br>
+                ✨ <span style="color:#00ff00; font-weight:bold;">🚨 TOTAL CHECKOUT PRICE DUE: <span id="summaryTotal">0.00 GMD</span></span>
+            </div>
+            <button type="button" class="buy-btn" style="background-color:var(--success-green);" onclick="routeDirectOrderToWhatsApp()">🟢 Generate Order Invoice via WhatsApp</button>
+        </div>
+    </div>
+</body>
+</html>

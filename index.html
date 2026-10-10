@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MECAPL Healthcare Services</title>
+    <style>
+        :root {
+            --primary-burgundy: #800020;
+            --clinical-navy: #002366;
+            --accent-gold: #ffaa00;
+            --bg-dark: #0a0a0a;
+            --card-bg: #141414;
+            --text-light: #f8f9fa;
+            --border-muted: #262626;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background-color: var(--bg-dark); color: var(--text-light); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
+        .app-shell { background: var(--card-bg); border-top: 6px solid var(--primary-burgundy); border-radius: 16px; padding: 24px; max-width: 460px; width: 100%; box-shadow: 0 8px 35px rgba(0,0,0,0.8); box-sizing: border-box; }
+        .app-header { text-align: center; border-bottom: 2px solid var(--border-muted); padding-bottom: 18px; margin-bottom: 20px; }
+        .app-title { font-size: 1.8rem; font-weight: 900; letter-spacing: 2px; color: #ffffff; margin: 0; }
+        .app-tagline { color: var(--accent-gold); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-top: 6px; letter-spacing: 1px; }
+        
+        .usp-banner { background: #161012; border: 1px dashed var(--primary-burgundy); border-radius: 10px; padding: 14px; font-size: 0.82rem; line-height: 1.5; margin-bottom: 20px; color: #e0e0e0; }
+        .usp-highlight { color: var(--accent-gold); font-weight: bold; }
+        
+        .fleet-status-bar { background: #0f1c14; border: 1px solid #163820; color: #3cd070; padding: 10px; border-radius: 8px; font-size: 0.78rem; font-weight: bold; margin-bottom: 20px; text-align: center; letter-spacing: 0.5px; }
+        
+        .dispatch-card { display: flex; align-items: center; justify-content: space-between; background: #1a1a1a; border: 1px solid var(--border-muted); border-radius: 12px; padding: 18px; margin-bottom: 14px; text-decoration: none; color: white; transition: all 0.2s ease; }
+        .dispatch-card:hover { border-color: var(--primary-burgundy); background: #221215; }
+        .icon-box { width: 44px; height: 44px; background: var(--primary-burgundy); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; box-shadow: 0 4px 10px rgba(128,0,32,0.4); }
+        .card-details { flex: 1; padding-left: 16px; }
+        .card-title { font-size: 1.05rem; font-weight: 800; color: #ffffff; }
+        .card-desc { font-size: 0.78rem; color: #aaaaaa; margin-top: 4px; line-height: 1.4; }
+        .arrow-indicator { color: var(--accent-gold); font-size: 1.2rem; font-weight: bold; }
+        .footer-stamp { text-align: center; font-size: 0.7rem; color: #444444; margin-top: 25px; border-top: 1px solid var(--border-muted); padding-top: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+    </style>
+</head>
+<body>
+    <div class="app-shell">
+        <div class="app-header">
+            <h1 class="app-title">🔬 MECAPL</h1>
+            <div class="app-tagline">Independent Healthcare Dispatcher Network</div>
+        </div>
+        
+        <div class="usp-banner">
+            🚀 <span class="usp-highlight">The MECAPL Difference:</span> We do not require you to sit in crowded waiting rooms. We are an on-demand, technology-driven clinical logistics core delivering <span class="usp-highlight">Express VIP Doorstep Extractions</span> straight to your location with lightning-speed digital medical reports.
+        </div>
+
+        <div class="fleet-status-bar">⚡ DISPATCH PHLEBOTOMY FLEET STATUS: DISPATCH READY</div>
+        
+        <!-- Button 1 -->
+        <a href="flier.html" class="dispatch-card">
+            <div class="icon-box" style="background-color: var(--clinical-navy);">⚡</div>
+            <div class="card-details">
+                <div class="card-title">1. Express On-Demand Booking</div>
+                <div class="card-desc">Call a high-tech phlebotomy node to your doorstep. Includes automated symptom triage mapping.</div>
+            </div>
+            <div class="arrow-indicator">➔</div>
+        </a>
+
+        <!-- Button 2 -->
+        <a href="patient_portal.html" class="dispatch-card">
+            <div class="icon-box" style="background-color: var(--primary-burgundy);">🔒</div>
+            <div class="card-details">
+                <div class="card-title">2. Secured EHR Result Portal</div>
+                <div class="card-desc">Access unalterable, encrypted digital medical records and diagnostic laboratory parameters instantly.</div>
+            </div>
+            <div class="arrow-indicator">➔</div>
+        </a>
+
+        <!-- Button 3 -->
+        <a href="storefront.html" class="dispatch-card">
+            <div class="icon-box" style="background-color: #2e7d32;">📦</div>
+            <div class="card-details">
+                <div class="card-title">3. Consumables Procurement</div>
+                <div class="card-desc">Browse specialized medical tools and inventory counters with instant WhatsApp checkout billing.</div>
+            </div>
+            <div class="arrow-indicator">➔</div>
+        </a>
+
+        <div class="footer-stamp">MECAPL Secure Core Subsystem • Serrekunda, The Gambia</div>
+    </div>
+</body>
+</html>
