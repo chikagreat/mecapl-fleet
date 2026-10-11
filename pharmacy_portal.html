@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MECAPL Standalone Pharmacy Portal</title>
+    <style>
+        :root { --primary-burgundy: #800020; --clinical-blue: #002366; --accent-gold: #ffaa00; --bg-dark: #090909; --card-bg: #141414; --border-muted: #252525; --text-light: #f8f9fa; --success-green: #2e7d32; }
+        body { font-family: sans-serif; background-color: var(--bg-dark); color: var(--text-light); margin: 0; padding: 12px; display: flex; flex-direction: column; align-items: center; }
+        .pharmacy-container { background: var(--card-bg); border-top: 6px solid var(--success-green); border-radius: 12px; padding: 20px; max-width: 460px; width: 100%; box-sizing: border-box; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .header-main { text-align: center; border-bottom: 1px solid var(--border-muted); padding-bottom: 12px; margin-bottom: 15px; }
+        .brand-title { color: #ffffff; font-size: 1.3rem; font-weight: 800; }
+        .form-select, .form-input { width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid var(--border-muted); border-radius: 6px; color: #ffffff; font-size: 0.88rem; box-sizing: border-box; margin-bottom: 10px; }
+        .action-btn { background-color: var(--success-green); color: white; border: none; width: 100%; padding: 12px; font-size: 0.9rem; font-weight: bold; border-radius: 6px; cursor: pointer; text-transform: uppercase; margin-top: 5px; }
+        .rx-card { background: #1a1a1a; border: 1px solid var(--border-muted); border-left: 4px solid var(--success-green); padding: 12px; border-radius: 6px; margin-top: 12px; font-size: 0.82rem; line-height: 1.5; }
+    </style>
+    <script>
+        function dispatchPrescription() {
+            const name = document.getElementById('rxPtName').value.trim();
+            const location = document.getElementById('rxLocation').value.trim();
+            const med = document.getElementById('medSelect').value;
+            const instructions = document.getElementById('rxInstructions').value.trim() || "Take as clinically directed by practitioner.";
+            
+            if(!name || !location || !med) { alert("Please complete all mandatory fields."); return; }
+            
+            const [medName, baseCost] = med.split('|');
+            const rxId = "RX-" + Math.floor(10000 + Math.random() * 90000);
+            
+            const payload = `🔬 *MECAPL PHARMACY CORE: E-PRESCRIPTION DISPATCH*\n----------------------------------------\n• *Prescription ID:* ${rxId}\n• *Patient Name:* ${name}\n• *Destination Area:* ${location}\n• *Medication Allocated:* ${medName}\n• *Directions:* ${instructions}\n----------------------------------------\n✓ *Fleet Router Notification Triggered. Insulated Cold-Chain Module Active.*`;
+            
+            // Render visible receipt card locally on screen
+            const container = document.getElementById('rxDisplayContainer');
+            container.innerHTML = `
+                <div class="rx-card">
+                    <span style="color:var(--success-green); font-weight:bold;">🚀 ROUTED TO FLEET LOGISTICS</span><br>
+                    <strong>ID:</strong> ${rxId}<br>
+                    <strong>Patient:</strong> ${name}<br>
+                    <strong>Medication:</strong> ${medName} (Cost: D ${baseCost})<br>
+                    <strong>Delivery Node:</strong> ${location}
+                </div>`;
+                
+            // Open secure automated WhatsApp bridge to dispatch transit rider
+            window.open(`https://wa.me{encodeURIComponent(payload)}`, '_blank');
+        }
+    </script>
+</head>
+<body>
+    <div class="pharmacy-container">
+        <div class="header-main">
+            <div class="brand-title">💊 MECAPL Pharmacy Dispatch</div>
+            <div style="color: var(--accent-gold); font-size: 0.72rem; font-weight: bold; text-transform: uppercase; margin-top: 4px;">E-Prescription & Doorstep Medication Routing</div>
+        </div>
+        
+        <input type="text" id="rxPtName" class="form-input" placeholder="Patient Full Name">
+        <input type="text" id="rxLocation" class="form-input" placeholder="Delivery Destination / Corridor Coordinate">
+        
+        <select id="medSelect" class="form-select">
+            <option value="">-- Select E-Prescription Medication Allocation --</option>
+            <option value="Artemether/Lumefantrine (Coartem) Oral Suspension|450">Artemether/Lumefantrine (Coartem) - D 450</option>
+            <option value="Amoxicillin/Clavulanic Acid Suspension (Augmentin)|650">Amoxicillin/Clavulanate (Augmentin) - D 650</option>
+            <option value="Metformin HCl 500mg Extended Release Suite|350">Metformin HCl 500mg ER - D 350</option>
+            <option value="Paracetamol Infantile Suppositories Profile|250">Paracetamol Infant Suppositories - D 250</option>
+        </select>
+        
+        <input type="text" id="rxInstructions" class="form-input" placeholder="Specific Dosage Instructions (e.g. BD/TDS)">
+        
+        <button type="button" class="action-btn" onclick="dispatchPrescription()">🔒 Fulfill Order & Dispatch Rider Node</button>
+        
+        <div id="rxDisplayContainer"></div>
+    </div>
+</body>
+</html>
