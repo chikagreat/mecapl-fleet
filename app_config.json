@@ -1,0 +1,10 @@
+{
+  "name": "MECAPL Healthcare",
+  "short_name": "MECAPL",
+  "theme_color": "#800020",
+  "background_color": "#070707",
+  "start_url": "index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "description": "Premium AI-Driven Doorstep Diagnostics & Logistics Matrix"
+}
