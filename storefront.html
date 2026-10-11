@@ -3,122 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MECAPL Consumables Storefront</title>
+    <title>MECAPL Elite Procurement & Diagnostics Management Hub</title>
     <style>
-        :root { --primary-burgundy: #800020; --accent-gold: #ffaa00; --success-green: #2e7d32; --bg-dark: #0a0a0a; --card-bg: #141414; --text-light: #f8f9fa; --border-muted: #222222; }
-        body { font-family: sans-serif; background-color: var(--bg-dark); color: var(--text-light); margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
-        .store-container { background: var(--card-bg); border-top: 6px solid var(--primary-burgundy); border-radius: 12px; padding: 16px; max-width: 440px; width: 100%; box-sizing: border-box; }
-        .header-main { text-align: center; border-bottom: 1px solid #333; padding-bottom: 12px; margin-bottom: 15px; }
-        .brand-title { color: #ffffff; font-size: 1.25rem; font-weight: 800; }
-        .product-card { background: #1c1c1c; border: 1px solid #333; border-radius: 8px; padding: 12px; margin-bottom: 12px; position: relative; }
-        .item-number { position: absolute; top: 10px; left: 10px; background: var(--primary-burgundy); color: white; font-weight: bold; font-size: 0.75rem; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--accent-gold); }
-        .product-title { font-size: 0.95rem; font-weight: bold; color: #ffffff; margin-bottom: 4px; padding-left: 35px; }
-        .product-meta { font-size: 0.8rem; color: #aaaaaa; line-height: 1.4; margin-bottom: 10px; }
-        .price-tag { color: #00ff00; font-weight: bold; }
-        .stock-badge { font-size: 0.72rem; font-weight: bold; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-bottom: 10px; background: #113318; color: #33ff44; border: 1px solid #185522; }
-        .buy-btn { background-color: var(--primary-burgundy); color: white; border: none; padding: 10px; font-size: 0.85rem; font-weight: bold; border-radius: 6px; cursor: pointer; text-transform: uppercase; width: 100%; text-align: center; }
-        .checkout-drawer { display: none; background: #111; border: 1px solid #333; border-radius: 8px; padding: 14px; margin-top: 10px; }
-        .form-label { display: block; font-size: 0.7rem; color: #aaaaaa; margin-bottom: 4px; font-weight: bold; text-transform: uppercase; margin-top: 8px; }
-        .form-input, .form-select { width: 100%; padding: 10px; background: #1e1e1e; border: 1px solid #333; border-radius: 6px; color: #ffffff; font-size: 0.85rem; box-sizing: border-box; margin-bottom: 10px; }
-        .summary-box { background: #0a0a0a; padding: 10px; border-radius: 6px; font-size: 0.8rem; margin: 12px 0; border-left: 3px solid var(--accent-gold); line-height: 1.5; }
+        :root { --primary-burgundy: #800020; --clinical-blue: #002366; --accent-gold: #ffaa00; --bg-dark: #070707; --card-bg: #121212; --border-muted: #222222; --text-light: #f8f9fa; --success-green: #2e7d32; }
+        body { font-family: sans-serif; background-color: var(--bg-dark); color: var(--text-light); margin: 0; padding: 12px; }
+        .hub-container { max-width: 1000px; margin: 0 auto; width: 100%; }
+        .header-main { text-align: center; border-bottom: 1px solid var(--border-muted); padding-bottom: 15px; margin-bottom: 20px; }
+        .brand-title { font-size: 1.6rem; font-weight: 800; letter-spacing: 1px; }
+        .grid-layout { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media(min-width: 850px) { .grid-layout { grid-template-columns: 1fr 1.2fr; } }
+        .section-card { background: var(--card-bg); border-top: 4px solid var(--primary-burgundy); border-radius: 10px; padding: 20px; border-left: 1px solid var(--border-muted); border-right: 1px solid var(--border-muted); border-bottom: 1px solid var(--border-muted); }
+        .admin-card { border-top-color: var(--clinical-blue); display: none; }
+        .form-input, .form-select, .form-textarea { width: 100%; padding: 10px; background: #1a1a1a; border: 1px solid var(--border-muted); border-radius: 6px; color: #ffffff; font-size: 0.88rem; box-sizing: border-box; margin-bottom: 10px; }
+        .action-btn { width: 100%; padding: 12px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase; border-radius: 6px; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px; }
+        .btn-burgundy { background-color: var(--primary-burgundy); color: white; }
+        .btn-blue { background-color: var(--clinical-blue); color: white; }
+        .btn-gold { background-color: var(--accent-gold); color: #000; }
+        .btn-green { background-color: var(--success-green); color: white; }
+        .order-row { background: #181818; border: 1px solid var(--border-muted); border-left: 4px solid var(--accent-gold); padding: 14px; border-radius: 6px; margin-bottom: 15px; font-size: 0.85rem; line-height: 1.5; }
+        .badge { display: inline-block; padding: 3px 8px; font-size: 0.68rem; font-weight: bold; border-radius: 4px; text-transform: uppercase; margin-bottom: 6px; }
+        .badge-pending { background: #423000; color: var(--accent-gold); }
+        .badge-validated { background: #1b5e20; color: #4caf50; }
+        .ai-intercept-box { background: #0c101f; border-left: 4px solid #1aa7ec; padding: 10px; border-radius: 4px; margin-top: 10px; font-size: 0.8rem; line-height: 1.4; color: #d0daf0; }
+        .stealth-gate { text-align: center; margin-top: 30px; border-top: 1px dashed #333; padding-top: 15px; }
     </style>
     <script>
-        let currentProduct = {};
-        function openCheckout(itemNo, name, basePrice, stockId, weightClass) {
-            currentProduct = { itemNo, name, basePrice, stockId, weightClass };
-            document.getElementById('checkoutDrawer').style.display = 'block';
-            document.getElementById('drawerProductTitle').innerText = '🛍️ ACQUISITION: ITEM #' + itemNo + ' - ' + name;
-            document.getElementById('unitPriceInput').value = basePrice + ' GMD';
-            calculateTotals();
-            document.getElementById('checkoutDrawer').scrollIntoView({ behavior: 'smooth' });
+        let ordersPool = [
+            { id: "MEC-8457", client: "Sadiatou Jallow", age: "6 weeks", items: "Full Blood Count (FBC) + Sepsis Biomarkers", location: "BAFROW Clinic Lot", status: "Pending Results Input", results: null, interpretation: "" }
+        ];
+
+        function submitCustomerOrder() {
+            const name = document.getElementById('custName').value.trim();
+            const age = document.getElementById('custAge').value.trim() || "Adult";
+            const location = document.getElementById('custLocation').value.trim();
+            const product = document.getElementById('productSelect').value;
+            if(!name || !location || !product) { alert("Please compile all mandatory fields."); return; }
+            
+            const [pName, pPrice] = product.split('|');
+            const orderId = "MEC-" + Math.floor(1000 + Math.random() * 9000);
+            
+            ordersPool.push({ id: orderId, client: name, age: age, items: pName, location: location, status: "Pending Results Input", results: null, interpretation: "" });
+            alert("🔒 Premium Request Injected Successfully. Transaction ID Assigned: " + orderId);
+            
+            document.getElementById('custName').value = '';
+            document.getElementById('custAge').value = '';
+            document.getElementById('custLocation').value = '';
+            renderBackendOrders();
         }
-        function calculateTotals() {
-            const qty = parseInt(document.getElementById('orderQty').value) || 1;
-            const subtotal = currentProduct.basePrice * qty;
-            const loc = document.getElementById('deliveryLocation').value;
-            let deliveryCharge = loc === 'far' ? 300 : 250;
-            if (currentProduct.weightClass === 'heavy') deliveryCharge += 50;
-            document.getElementById('summaryQty').innerText = qty;
-            document.getElementById('summaryDelivery').innerText = deliveryCharge + ' GMD';
-            document.getElementById('summaryTotal').innerText = (subtotal + deliveryCharge).toLocaleString() + '.00 GMD';
+
+        function verifyAdminAccess() {
+            const pin = document.getElementById('adminPinInput').value;
+            if(pin === "1982") { 
+                document.getElementById('adminPanelBlock').style.display = 'block';
+                document.getElementById('stealthGateBlock').style.display = 'none';
+                renderBackendOrders();
+            } else { alert("Authentication Failure. Access Denied."); }
         }
-        function routeDirectOrderToWhatsApp() {
-            const buyer = document.getElementById('buyerName').value.trim();
-            const phone = document.getElementById('buyerPhone').value.trim();
-            const customLoc = document.getElementById('customAddress').value.trim();
-            const qty = document.getElementById('orderQty').value;
-            const locSelect = document.getElementById('deliveryLocation');
-            const locName = locSelect.options[locSelect.selectedIndex].text;
-            if(!buyer || !phone || !customLoc) { alert('Please enter all buyer contact and physical drop coordinates.'); return; }
-            let deliveryCharge = locSelect.value === 'far' ? 300 : 250;
-            if (currentProduct.weightClass === 'heavy') deliveryCharge += 50;
-            const netPrice = (currentProduct.basePrice * qty) + deliveryCharge;
-            const whatsappText = `📦 *MECAPL NETWORKS: STOREFRONT PROCUREMENT*\n----------------------------\n• *Item Number:* #${currentProduct.itemNo}\n• *Product:* ${currentProduct.name}\n• *Buyer:* ${buyer}\n• *Phone:* ${phone}\n• *Volume:* ${qty} Unit(s)\n• *Transit Zone:* ${locName}\n• *Address:* ${customLoc}\n• *Delivery Cost:* ${deliveryCharge} GMD\n• *TOTAL VALUE CLEARING DUE:* ${netPrice.toLocaleString()}.00 GMD`;
-            window.open(`https://wa.me{encodeURIComponent(whatsappText)}`, '_blank');
+
+        function evaluateClinicalResults(index) {
+            const wbc = parseFloat(document.getElementById(`wbc_${index}`).value) || 0;
+            const hgb = parseFloat(document.getElementById(`hgb_${index}`).value) || 0;
+            const plt = parseFloat(document.getElementById(`plt_${index}`).value) || 0;
+            const mchc = parseFloat(document.getElementById(`mhc_${index}`).value) || 0;
+            const rdt = document.getElementById(`rdt_${index}`).value;
+            const uri = document.getElementById(`uri_${index}`).value.trim();
+            const order = ordersPool[index];
+            
+            let interpt = "";
+            let riskLevel = "NORMAL BASELINE PARAMETERS";
+            
+            // AI Diagnostic Logic Threshold Evaluator
+            if (wbc > 30.0) {
+                riskLevel = "🚨 CRITICAL PANIC EMERGENCY ALERT: SYSTEMIC SEPTIC STORM";
+                interpt = `⚠️ *AI Expert Intercept:* Severe Hyperleukocytosis (${wbc} x10³/µL) detected. Consistent with systemic neonatal bacterial sepsis or acute leukemoid reaction. `;
+                if(mchc > 36.0) {
+                    interpt += `⚠️ *WARNING:* Artificially elevated MCHC (${mchc} g/dL) flags active In-Vitro COLD AGGLUTININ Red Cell clumping. *CRITICAL DIRECTIVE:* Place sample in 37°C incubator for 20 minutes and rerun immediately. DO NOT infuse unincubated blood. `;
+                }
+                interpt += `\n📍 *IMMEDIATE NEXT LINE OF ACTION:* 1. Secure immediate pediatric ward isolation. 2. Collect blood culture sample immediately BEFORE initiating empirical broad-spectrum IV antibiotics. 3. Process urgent emergency blood bank crossmatch utilizing a pre-warmed technique.`;
+            } else if (rdt === "Positive") {
+                riskLevel = "⚠️ ACUTE INFECTIOUS PATHOGEN FLAG";
+                interpt = `🔬 *AI Expert Intercept:* Positive Malaria RDT confirmed. Red cell degradation monitoring required.\n📍 *NEXT LINE OF ACTION:* Initiate immediate antimalarial therapeutic protocols under clinical supervision. Follow up with a repeat FBC in 48 hours to track Hemoglobin stability.`;
+            } else if (hgb < 9.0) {
+                riskLevel = "⚠️ SEVERE HEMATOLOGICAL DEPRESSION";
+                interpt = `🩸 *AI Expert Intercept:* Severe microcytic anemia parameters noted (Hb: ${hgb} g/dL). Marrow output optimization required.\n📍 *NEXT LINE OF ACTION:* Screen donor records for clean, fully screened packed red blood cell units. Prepare transfusion lines using strict weight-based micro-drip calculations.`;
+            } else {
+                interpt = `✓ *AI Expert Intercept:* Routine baseline parameters cleared. Patient display clinically compliant. No immediate panic deviations noted.`;
+            }
+            
+            order.results = { wbc, hgb, plt, mchc, rdt, uri };
+            order.status = "Results Validated & Intercepted";
+            order.interpretation = `*STATUS:* ${riskLevel}\n${interpt}`;
+            
+            renderBackendOrders();
+        }
+
+        function eraseOrderNode(index) {
+            if(confirm("Are you sure you want to permanently cancel and clear this order node?")) {
+                ordersPool.splice(index, 1);
+                renderBackendOrders();
+            }
+        }
+
+        function dispatchWhatsAppAlert(index) {
+            const o = ordersPool[index];
+            let resStr = o.results ? `\n• *WBC:* ${o.results.wbc} | *HGB:* ${o.results.hgb} | *PLT:* ${o.results.plt}\n• *Malaria RDT:* ${o.results.rdt} | *Urinalysis:* ${o.results.uri}` : `\n• *Results Status:* Pending Extraction`;
+            const payload = `🔬 *MECAPL HEALTHCARE: EXPERT CLINICAL REPORT*\n-----------------------------------\n• *Order ID:* ${o.id}\n• *Patient:* ${o.client} (${o.age})\n• *Location:* ${o.location}\n• *Assays Run:* ${o.items}${resStr}\n\n-----------------------------------\n🛰️ *ADVANCED AI CLINICAL INTERCEPT REPORT:*\n${o.interpretation}\n-----------------------------------\n✓ *Paperless EHR Transmitted Live via Central Pathology Core. No Physical Paperwork Required.*`;
+            window.open(`https://wa.me{encodeURIComponent(payload)}`, '_blank');
         }
     </script>
 </head>
 <body>
-    <div class="store-container">
+    <div class="hub-container">
         <div class="header-main">
-            <div class="brand-title">📦 MECAPL MARKETPLACE</div>
-            <div style="color: #aaa; font-size: 0.75rem; margin-top: 3px;">Konga-Style Logistics Procurement Core</div>
+            <div class="brand-title">🔬 MECAPL HEALTHCARE</div>
+            <div style="color: var(--accent-gold); font-size: 0.75rem; font-weight: bold; text-transform: uppercase; margin-top: 4px;">Premium AI-Powered Diagnostic Dispatch & Core Server</div>
         </div>
         
-        <div class="product-card">
-            <div class="item-number">ITEM 01</div>
-            <div class="product-title">MECAPL Vacutainer EDTA Tubes</div>
-            <div class="product-meta">Specification: K3 EDTA Tubes (Box of 100)<br>Price: <span class="price-tag">450.00 GMD</span></div>
-            <div class="stock-badge" id="stock01" data-stock="48">✓ 48 Boxes Available in Fleet Vault</div>
-            <button class="buy-btn" onclick="openCheckout('01', 'MECAPL Vacutainer EDTA Tubes', 450, 'stock01', 'light')">🛒 Select Item 01</button>
-        </div>
-
-        <div class="product-card">
-            <div class="item-number">ITEM 02</div>
-            <div class="product-title">Premium Plain Serum Tubes</div>
-            <div class="product-meta">Specification: Clot Activator Red Top (Box of 100)<br>Price: <span class="price-tag">400.00 GMD</span></div>
-            <div class="stock-badge" id="stock02" data-stock="24">✓ 24 Boxes Available in Fleet Vault</div>
-            <button class="buy-btn" onclick="openCheckout('02', 'Premium Plain Serum Tubes', 400, 'stock02', 'light')">🛒 Select Item 02</button>
-        </div>
-
-        <div class="product-card">
-            <div class="item-number">ITEM 03</div>
-            <div class="product-title">Digital Fingerprint Pulse Oximeter Node</div>
-            <div class="product-meta">Specification: High-Precision SpO₂ Telemetry<br>Price: <span class="price-tag">850.00 GMD</span></div>
-            <div class="stock-badge" id="stock03" data-stock="12" style="background:#3a1015; color:#ff3333; border-color:#661118;">⚠️ Only 12 Units Remaining on Bajaj Node</div>
-            <button class="buy-btn" onclick="openCheckout('03', 'Digital Pulse Oximeter Node', 850, 'stock03', 'heavy')">🛒 Select Item 03</button>
-        </div>
-
-        <div id="checkoutDrawer" class="checkout-drawer">
-            <div id="drawerProductTitle" style="font-weight:bold; color:var(--accent-gold); font-size:0.85rem; margin-bottom:10px;"></div>
-            <label class="form-label">Full Name of Buyer / Clinic Manager</label>
-            <input type="text" id="buyerName" class="form-input" placeholder="e.g. John Care Clinic" required>
-            <label class="form-label">Active Contact Mobile Line</label>
-            <input type="text" id="buyerPhone" class="form-input" placeholder="e.g. +220 872159724" required>
-            <div style="display:flex; gap:10px;">
-                <div style="flex:1;">
-                    <label class="form-label">Price Per Unit</label>
-                    <input type="text" id="unitPriceInput" class="form-input" readonly>
-                </div>
-                <div style="flex:1;">
-                    <label class="form-label">Order Quantity</label>
-                    <input type="number" id="orderQty" class="form-input" value="1" min="1" oninput="calculateTotals()" required>
-                </div>
+        <div class="grid-layout">
+            <!-- Front-Facing Patient Intake Portal -->
+            <div class="section-card">
+                <div style="font-size: 0.9rem; color: var(--accent-gold); font-weight: bold; text-transform: uppercase; margin-bottom: 12px; border-bottom:1px solid #222; padding-bottom:4px;">🛒 Secure Procurement Node</div>
+                <label style="font-size:0.75rem; color:#aaa; font-weight:bold; display:block; margin-bottom:4px;">Patient Full Name</label>
+                <input type="text" id="custName" class="form-input" placeholder="e.g. Sadiatou Jallow">
+                <label style="font-size:0.75rem; color:#aaa; font-weight:bold; display:block; margin-bottom:4px;">Age / Category Bracket</label>
+                <input type="text" id="custAge" class="form-input" placeholder="e.g. 6 weeks or 38 years">
+                <label style="font-size:0.75rem; color:#aaa; font-weight:bold; display:block; margin-bottom:4px;">Delivery Location Coordinates</label>
+                <input type="text" id="custLocation" class="form-input" placeholder="e.g. Westfield Corridor Hub">
+                <label style="font-size:0.75rem; color:#aaa; font-weight:bold; display:block; margin-bottom:4px;">Select Requested Diagnostic Profile</label>
+                <select id="productSelect" class="form-select">
+                    <option value="Compulsory Standard Baseline Check|1500">Compulsory Baseline (FBC+RDT+RBS+Uri) - D 1,500</option>
+                    <option value="Finecare® Cardiac Markers Combo|3500">Finecare® Cardiac Combo (CK-MB/cTnI) - D 3,500</option>
+                    <option value="Premium Liver Function Suite (LFT)|2200">Liver Function Suite (LFT) - D 2,200</option>
+                    <option value="Advanced Renal Monitoring Suite (RFT)|1800">Kidney Function Panel (RFT) - D 1,800</option>
+                </select>
+                <button type="button" class="action-btn btn-burgundy" onclick="submitCustomerOrder()">🔒 Initialize Secured Doorstep Order Request</button>
             </div>
-            <label class="form-label">Select Delivery Transit Zone</label>
-            <select id="deliveryLocation" class="form-select" onchange="calculateTotals()">
-                <option value="near">Serekunda / Westfield Corridor (D 250)</option>
-                <option value="far">Banjul / Coastal Highway / Airport Route (D 300)</option>
-            </select>
-            <label class="form-label">Detailed Physical Drop Address</label>
-            <input type="text" id="customAddress" class="form-input" placeholder="e.g. Opposite Latrikunda School" required>
-            <div class="summary-box">
-                📦 <strong>Total Package Bundles:</strong> <span id="summaryQty">1</span> unit(s)<br>
-                🚚 <strong>Logistical Transit Cost:</strong> <span id="summaryDelivery">250.00 GMD</span><br>
-                ✨ <span style="color:#00ff00; font-weight:bold;">🚨 TOTAL CHECKOUT PRICE DUE: <span id="summaryTotal">0.00 GMD</span></span>
+
+            <!-- Managing Director's Advanced AI Control Terminal Panel -->
+            <div id="adminPanelBlock" class="section-card admin-card">
+                <div style="font-size: 0.9rem; color: #1aa7ec; font-weight: bold; text-transform: uppercase; margin-bottom: 12px; border-bottom:1px solid #222; padding-bottom:4px;">📡 Managing Director Operations Terminal</div>
+                <div id="backendOrdersContainer"></div>
             </div>
-            <button type="button" class="buy-btn" style="background-color:var(--success-green);" onclick="routeDirectOrderToWhatsApp()">🟢 Generate Order Invoice via WhatsApp</button>
+        </div>
+
+        <!-- Hidden Stealth Gate Entry Point -->
+        <div id="stealthGateBlock" class="stealth-gate">
+            <input type="password" id="adminPinInput" class="form-input" style="max-width:240px; text-align:center; padding:8px; font-size:0.8rem; margin-bottom:8px;" placeholder="Enter Secure Director PIN">
+            <br>
+            <button type="button" class="action-btn btn-blue" style="max-width:240px; padding:8px; font-size:0.75rem;" onclick="verifyAdminAccess()">🔐 Authenticate Backend Systems</button>
         </div>
     </div>
+
+    <!-- Inject Dynamic Order Injection Row Script Template -->
+    <script>
+        const originalRender = renderBackendOrders;
+        renderBackendOrders = function() {
+            const container = document.getElementById('backendOrdersContainer');
+            container.innerHTML = '';
+            ordersPool.forEach((o, index) => {
+                let badgeClass = "badge-pending";
+                if(o.status.includes("Validated") || o.status.includes("Intercepted")) badgeClass = "badge-validated";
+                
+                let resultsForm = o.results ? '' : `
+                    <div style="background:#1e1e1e; padding:10px; border-radius:6px; margin-top:10px; border:1px solid #2b2b2b;">
+                        <span style="color:var(--accent-gold); font-size:0.72rem; font-weight:bold; display:block; margin-bottom:6px;">🔬 MANUAL BENCH PARAMETER INPUT:</span>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+                            <input type="number" id="wbc_${index}" class="form-input" style="margin:0; padding:6px;" placeholder="WBC (x10³/µL)">
+                            <input type="number" id="hgb_${index}" class="form-input" style="margin:0; padding:6px;" placeholder="HGB (g/dL)">
+                            <input type="number" id="plt_${index}" class="form-input" style="margin:0; padding:6px;" placeholder="PLT (x10³/µL)">
+                            <input type="number" id="mhc_${index}" class="form-input" style="margin:0; padding:6px;" placeholder="MCHC (g/dL)">
+                        </div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:6px;">
+                            <select id="rdt_${index}" class="form-select" style="margin:0; padding:6px;">
+                                <option value="Negative">Malaria RDT: Neg</option>
+                                <option value="Positive">Malaria RDT: Pos</option>
+                            </select>
+                            <input type="text" id="uri_${index}" class="form-input" style="margin:0; padding:6px;" placeholder="Urinalysis (e.g. Clean)">
+                        </div>
+                        <button type="button" class="action-btn btn-blue" style="margin-top:8px; padding:6px; font-size:0.72rem;" onclick="evaluateClinicalResults(${index})">🛰️ Process AI Expert Analysis & Validate</button>
+                    </div>`;
+
+                let interceptDisplay = o.interpretation ? `
+                    <div class="ai-intercept-box">
+                        ${o.interpretation.replace(/\n/g, '<br>')}
+                    </div>` : '';
+
+                container.innerHTML += `
+                    <div class="order-row" style="border-left-color: ${o.results ? '#4caf50' : '#ffaa00'}">
+                        <div class="badge ${badgeClass}">${o.status}</div><br>
+                        <strong>ID:</strong> ${o.id} | <strong>Patient:</strong> ${o.client} (${o.age})<br>
+                        <strong>Profile:</strong> ${o.items} | <strong>Location:</strong> ${o.location}<br>
+                        ${resultsForm}
+                        ${interceptDisplay}
+                        <div style="margin-top:10px; display:flex; gap:6px; flex-wrap:wrap;">
+                            <button class="action-btn btn-burgundy" style="padding:6px 12px; font-size:0.75rem; margin:0; background:#25d366; color:black;" onclick="dispatchWhatsAppAlert(${index})">📲 Dispatch WhatsApp PDF Report</button>
+                            <button class="action-btn btn-danger" style="padding:6px 12px; font-size:0.75rem; margin:0; width:auto;" onclick="eraseOrderNode(${index})">🗑️ Purge</button>
+                        </div>
+                    </div>`;
+            });
+        }
+    </script>
 </body>
 </html>
