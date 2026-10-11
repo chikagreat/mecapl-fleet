@@ -25,8 +25,9 @@
             const select = document.getElementById('ledgerTestSelect'); if (!select.value) return;
             const ptName = document.getElementById('ledgerPtName').value.trim() || "WALK-IN REF";
             const partner = document.getElementById('partnerSelect').value;
-            const [testName, retailPriceStr] = select.value.split('|');
-            const retailPrice = parseInt(retailPriceStr);
+            const selectedText = select.options[select.selectedIndex].text;
+            const retailPrice = parseInt(select.value.split('|')[1]) || 1500;
+            const testName = selectedText.split(' - ')[0];
             
             // Apply hardcoded 27.5% corporate wholesale arbitrage discount
             const wholesaleCost = Math.round(retailPrice * (1 - 0.275));
