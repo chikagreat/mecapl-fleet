@@ -3,89 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MECAPL - B2B Reference Submission Sheet</title>
+    <title>MECAPL B2B Ledger</title>
     <style>
-        :root { --primary-burgundy: #800020; --clinical-navy: #002366; --accent-gold: #ffaa00; --bg-dark: #0a0a0a; --card-bg: #141414; --text-light: #f8f9fa; --border-muted: #222222; }
+        :root { --primary-burgundy: #800020; --clinical-blue: #002366; --accent-gold: #ffaa00; --bg-dark: #0a0a0a; --card-bg: #141414; --text-light: #f8f9fa; --border-muted: #222222; }
         body { font-family: sans-serif; background-color: var(--bg-dark); color: var(--text-light); margin: 0; padding: 12px; display: flex; flex-direction: column; align-items: center; }
-        .sheet-shell { background: var(--card-bg); border-top: 6px solid var(--clinical-navy); border-radius: 12px; padding: 20px; max-width: 450px; width: 100%; box-sizing: border-box; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .sheet-header { text-align: center; border-bottom: 1px solid var(--border-muted); padding-bottom: 12px; margin-bottom: 15px; }
-        .price-box { background: #111; border-left: 3px solid var(--accent-gold); padding: 12px; border-radius: 6px; font-size: 0.82rem; line-height: 1.5; margin-bottom: 12px; }
-        .action-btn { background-color: var(--primary-burgundy); color: white; border: none; width: 100%; padding: 12px; font-size: 0.88rem; font-weight: bold; border-radius: 6px; cursor: pointer; text-transform: uppercase; margin-top: 5px; }
+        .ledger-container { background: var(--card-bg); border-top: 6px solid var(--clinical-blue); border-radius: 12px; padding: 20px; max-width: 460px; width: 100%; box-sizing: border-box; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .header-main { text-align: center; border-bottom: 1px solid var(--border-muted); padding-bottom: 12px; margin-bottom: 15px; }
+        .brand-title { color: #ffffff; font-size: 1.3rem; font-weight: 800; }
+        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .metric-card { background: #1e1e1e; border: 1px solid var(--border-muted); padding: 10px; border-radius: 6px; text-align: center; }
+        .metric-value { font-size: 1.1rem; font-weight: bold; color: var(--accent-gold); margin-top: 4px; }
+        .form-select, .form-input { width: 100%; padding: 10px; background: #1e1e1e; border: 1px solid var(--border-muted); border-radius: 6px; color: #ffffff; font-size: 0.88rem; box-sizing: border-box; margin-bottom: 10px; }
+        .action-btn { background-color: var(--clinical-blue); color: white; border: none; width: 100%; padding: 12px; font-size: 0.9rem; font-weight: bold; border-radius: 6px; cursor: pointer; text-transform: uppercase; }
+        .invoice-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-top: 15px; text-align: left; }
+        .invoice-table th { color: var(--accent-gold); border-bottom: 2px solid var(--border-muted); padding: 6px; }
+        .invoice-table td { border-bottom: 1px solid var(--border-muted); padding: 8px; color: #ddd; }
     </style>
     <script>
-        function calculateB2BArbitrage() {
-            const select = document.getElementById('assaySelect'); if(!select.value) return;
-            const [name, retailPrice] = select.value.split('|');
-            const retail = parseInt(retailPrice);
-            const wholesaleDiscount = retail * 0.275; 
-            const wholesaleCost = retail - wholesaleDiscount;
-            const netMargin = retail - wholesaleCost;
-
-            document.getElementById('displayRetail').innerText = retail.toLocaleString() + '.00 GMD';
-            document.getElementById('displayWholesale').innerText = wholesaleCost.toLocaleString() + '.00 GMD';
-            document.getElementById('displayMargin').innerText = netMargin.toLocaleString() + '.00 GMD';
-            document.getElementById('resultBlock').style.display = 'block';
+        let grossSales = 0; let totalWholesaleCost = 0; let netArbitrageProfit = 0;
+        function processArbitrage() {
+            const select = document.getElementById('ledgerTestSelect'); if (!select.value) return;
+            const ptName = document.getElementById('ledgerPtName').value.trim() || "WALK-IN REF";
+            const partner = document.getElementById('partnerSelect').value;
+            const [testName, retailPriceStr] = select.value.split('|');
+            const retailPrice = parseInt(retailPriceStr);
+            
+            // Apply hardcoded 27.5% corporate wholesale arbitrage discount
+            const wholesaleCost = Math.round(retailPrice * (1 - 0.275));
+            const individualProfit = retailPrice - wholesaleCost;
+            
+            grossSales += retailPrice; totalWholesaleCost += wholesaleCost; netArbitrageProfit += individualProfit;
+            updateMetrics(); appendRow(ptName, testName, partner, retailPrice, wholesaleCost, individualProfit);
+            document.getElementById('ledgerPtName').value = ''; select.selectedIndex = 0;
+        }
+        function updateMetrics() {
+            document.getElementById('grossSalesDisplay').innerText = 'D ' + grossSales.toLocaleString();
+            document.getElementById('wholesaleCostDisplay').innerText = 'D ' + totalWholesaleCost.toLocaleString();
+            document.getElementById('netProfitDisplay').innerText = 'D ' + netArbitrageProfit.toLocaleString();
+        }
+        function appendRow(pt, test, partner, retail, cost, profit) {
+            const table = document.getElementById('ledgerBody');
+            const row = `<tr><td>${pt}</td><td>${test}<br><small style="color:#aaa;">📍 ${partner}</small></td><td>D ${retail}</td><td>D ${cost}</td><td style="color:#00ff00; font-weight:bold;">D ${profit}</td></tr>`;
+            table.innerHTML += row;
         }
     </script>
 </head>
 <body>
-    <div class="sheet-shell">
-        <div class="sheet-header">
-            <h3 style="margin:0; color:#fff;">🔬 MECAPL NETWORKS</h3>
-            <span style="font-size:0.7rem; color:var(--accent-gold); text-transform:uppercase; font-weight:bold;">B2B Reference Laboratory Submission Sheet</span>
+    <div class="ledger-container">
+        <div class="header-main">
+            <div class="brand-title">📈 Corporate B2B Billing Ledger</div>
+            <div style="color: var(--accent-gold); font-size: 0.72rem; font-weight: bold; text-transform: uppercase; margin-top: 4px;">MECAPL Arbitrage Revenue Matrix</div>
         </div>
-
-        <label style="display:block; font-size:0.7rem; color:#aaa; font-weight:bold; text-transform:uppercase; margin-bottom:5px;">Select Referred Assay Profile</label>
-        <select id="assaySelect" style="width:100%; padding:10px; background:#1e1e1e; border:1px solid #333; border-radius:6px; color:#fff; font-size:0.85rem; margin-bottom:15px;" onchange="calculateB2BArbitrage()">
-            <option value="">-- Choose Profile to Compute B2B Matrix --</option>
-            <optgroup label="Foundational Routing Packages">
-                <option value="Standard Baseline Check (FBC/RDT/RBS/Uri)|1500">Standard Baseline Check - D 1,500</option>
-                <option value="Routine Laboratory Diagnostic Test Bundle|2000">Routine Lab Diagnostic Bundle - D 2,000</option>
-            </optgroup>
-            <optgroup label="Advanced Biochemistry & Organ Panels">
-                <option value="Renal Function Test (RFT / E/U/Cr)|1500">Renal Function Test (RFT) - D 1,500</option>
-                <option value="Serum Electrolytes Panel (Na/K/Cl/HCO3)|1000">Serum Electrolytes Panel - D 1,000</option>
-                <option value="Liver Function Test (LFT Panel)|1800">Liver Function Test (LFT) - D 1,800</option>
-                <option value="Fasting Lipid Profile (FLP)|1200">Fasting Lipid Profile (FLP) - D 1,200</option>
-                <option value="Thyroid Function Test (TFT Panel)|2500">Thyroid Function Test (TFT) - D 2,500</option>
-                <option value="Cardiac Markers (Troponin / CK-MB)|3500">Cardiac Markers Panel - D 3,500</option>
-                <option value="Quantitative Beta-hCG Assay|1500">Quantitative Beta-hCG (Q.BHCG) - D 1,500</option>
-                <option value="C-Reactive Protein (CRP Quantitative)|600">C-Reactive Protein (CRP) - D 600</option>
-            </optgroup>
-            <optgroup label="Hematology & Immuno-Genetics">
-                <option value="Blood Grouping & Rh Factor Typing|300">Blood Group + Rh Factor - D 300</option>
-                <option value="Hemoglobin Genotype Screening|800">Hemoglobin Genotype - D 800</option>
-                <option value="Coagulation / Clotting Profile (PT/APTT)|1200">Clotting Profile (PT/APTT) - D 1,200</option>
-            </optgroup>
-            <optgroup label="Infectious Disease Serology">
-                <option value="Hepatitis B Surface Antigen (HBsAg Rapid)|400">Hepatitis B Screen (HBV) - D 400</option>
-                <option value="Hepatitis B Complete Multiplex Panel|2500">Complete HBV Panel - D 2,500</option>
-                <option value="Hepatitis C Virus Antibodies (HCV)|500">Hepatitis C Screen (HCV) - D 500</option>
-                <option value="Human Immunodeficiency Virus (HIV 1/2)|500">HIV 1/2 Screening - D 500</option>
-                <option value="VDRL Syphilis Serology Screening|300">VDRL Syphilis Screening - D 300</option>
-                <option value="H. pylori Serum Antigen/Antibody Combo|600">H. pylori Serum Combo Test - D 600</option>
-            </optgroup>
-            <optgroup label="Microbiology & Clinical Pathology">
-                <option value="Urine / HVS MCS Culture & Sensitivity|1200">HVS MCS Culture - D 1,200</option>
-                <option value="Routine Stool Analysis (Microscopy)|400">Routine Stool Analysis - D 400</option>
-                <option value="Stool Microbiology Culture (Stool MCS)|1500">Stool MCS Culture - D 1,500</option>
-                <option value="Stool H. pylori Antigen Rapid Test|800">Stool H. pylori Antigen - D 800</option>
-                <option value="Qualitative Strip Pregnancy Test (Urine)|300">Urine Pregnancy Test - D 300</option>
-            </optgroup>
-        </select>
-
-        <div id="resultBlock" style="display:none;">
-            <div class="price-box">
-                💸 <strong>Outpatient Retail Fee Collected:</strong> <span id="displayRetail" style="color:#fff;"></span><br>
-                🤝 <span style="color:var(--accent-gold);"><strong>JOBOT/Westfield Wholesale Cost (27.5% Off):</strong></span> <span id="displayWholesale" style="color:#00ff00; font-weight:bold;"></span><br>
-                📈 <strong style="color:#00ff00;">Net MECAPL Arbitrage Profit Margin:</strong> <span id="displayMargin" style="color:#00ff00; font-weight:bold;"></span>
+        <div class="metric-grid">
+            <div class="metric-card">
+                <div style="font-size:0.65rem; color:#aaa; text-transform:uppercase;">Gross Patient Fees</div>
+                <div id="grossSalesDisplay" class="metric-value">D 0</div>
             </div>
-            
-            <div style="font-size:0.75rem; color:#888; line-height:1.4; margin:10px 0; text-align:center;">
-                SLA Confirmation: 60-Minute Turnaround Time explicitly activated upon transit node drop [INDEX].
+            <div class="metric-card">
+                <div style="font-size:0.65rem; color:#aaa; text-transform:uppercase;">Net Profit (27.5%)</div>
+                <div id="netProfitDisplay" class="metric-value" style="color:#00ff00;">D 0</div>
             </div>
-            <button class="action-btn" onclick="alert('⚡ B2B SUBMISSION SHEET MANIFEST ENCODED:\nSpecimen parameters locked to partner analytical queue!')">📥 Commit Manifest to Partner Desk</button>
         </div>
+        <div style="background:#111; padding:12px; border-radius:8px; border:1px solid var(--border-muted);">
+            <input type="text" id="ledgerPtName" class="form-input" placeholder="Patient Name Tracking ID">
+            <select id="partnerSelect" class="form-select">
+                <option value="JOBOT Laboratory Corridor">JOBOT Lab Center Corridor</option>
+                <option value="Westfield Clinic Hub">Westfield Reference Hub</option>
+            </select>
+            <select id="ledgerTestSelect" class="form-select">
+                <option value="">-- Choose Dispatched Assay Panel --</option>
+                <option value="Standard Baseline Check|1500">Standard Baseline Check - D 1,500</option>
+                <option value="Finecare® Progesterone Assay|1200">Finecare® Progesterone - D 1,200</option>
+                <option value="Finecare® Cardiac Markers Combo|3500">Finecare® Cardiac Combo - D 3,500</option>
+                <option value="Serum Electrolytes Profile|1200">Serum Electrolytes Panel - D 1,200</option>
+                <option value="Complete Coagulation Profile|1800">Coagulation Profile (PT/INR) - D 1,800</option>
+                <option value="Liver Function Panel (LFT)|2200">Liver Function Panel (LFT) - D 2,200</option>
+                <option value="Kidney Function Panel (RFT)|1800">Kidney Function Panel (RFT) - D 1,800</option>
+            </select>
+            <button type="button" class="action-btn" onclick="processArbitrage()">🔒 Commit Transaction Entry to Ledger</button>
+        </div>
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Assay Core</th>
+                    <th>Retail</th>
+                    <th>Cost</th>
+                    <th>Arbitrage</th>
+                </tr>
+            </thead>
+            <tbody id="ledgerBody"></tbody>
+        </table>
     </div>
 </body>
 </html>
