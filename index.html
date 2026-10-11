@@ -3,82 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MECAPL Healthcare Services</title>
+    <title>MECAPL Health Care Services | Premium Diagnostics</title>
     <style>
-        :root {
-            --primary-burgundy: #800020;
-            --clinical-navy: #002366;
-            --accent-gold: #ffaa00;
-            --bg-dark: #0a0a0a;
-            --card-bg: #141414;
-            --text-light: #f8f9fa;
-            --border-muted: #262626;
-        }
-        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background-color: var(--bg-dark); color: var(--text-light); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
-        .app-shell { background: var(--card-bg); border-top: 6px solid var(--primary-burgundy); border-radius: 16px; padding: 24px; max-width: 460px; width: 100%; box-shadow: 0 8px 35px rgba(0,0,0,0.8); box-sizing: border-box; }
-        .app-header { text-align: center; border-bottom: 2px solid var(--border-muted); padding-bottom: 18px; margin-bottom: 20px; }
-        .app-title { font-size: 1.8rem; font-weight: 900; letter-spacing: 2px; color: #ffffff; margin: 0; }
-        .app-tagline { color: var(--accent-gold); font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-top: 6px; letter-spacing: 1px; }
-        
-        .usp-banner { background: #161012; border: 1px dashed var(--primary-burgundy); border-radius: 10px; padding: 14px; font-size: 0.82rem; line-height: 1.5; margin-bottom: 20px; color: #e0e0e0; }
-        .usp-highlight { color: var(--accent-gold); font-weight: bold; }
-        
-        .fleet-status-bar { background: #0f1c14; border: 1px solid #163820; color: #3cd070; padding: 10px; border-radius: 8px; font-size: 0.78rem; font-weight: bold; margin-bottom: 20px; text-align: center; letter-spacing: 0.5px; }
-        
-        .dispatch-card { display: flex; align-items: center; justify-content: space-between; background: #1a1a1a; border: 1px solid var(--border-muted); border-radius: 12px; padding: 18px; margin-bottom: 14px; text-decoration: none; color: white; transition: all 0.2s ease; }
-        .dispatch-card:hover { border-color: var(--primary-burgundy); background: #221215; }
-        .icon-box { width: 44px; height: 44px; background: var(--primary-burgundy); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; box-shadow: 0 4px 10px rgba(128,0,32,0.4); }
-        .card-details { flex: 1; padding-left: 16px; }
-        .card-title { font-size: 1.05rem; font-weight: 800; color: #ffffff; }
-        .card-desc { font-size: 0.78rem; color: #aaaaaa; margin-top: 4px; line-height: 1.4; }
-        .arrow-indicator { color: var(--accent-gold); font-size: 1.2rem; font-weight: bold; }
-        .footer-stamp { text-align: center; font-size: 0.7rem; color: #444444; margin-top: 25px; border-top: 1px solid var(--border-muted); padding-top: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+        :root { --primary-burgundy: #800020; --clinical-blue: #002366; --accent-gold: #ffaa00; --bg-dark: #070707; --card-bg: #121212; --border-muted: #222222; --text-light: #f8f9fa; }
+        body { font-family: sans-serif; background-color: var(--bg-dark); color: var(--text-light); margin: 0; padding: 16px; display: flex; flex-direction: column; align-items: center; }
+        .wrapper { max-width: 500px; width: 100%; box-sizing: border-box; }
+        .brand-header { text-align: center; border-bottom: 1px solid var(--border-muted); padding-bottom: 15px; margin-bottom: 20px; }
+        .brand-title { font-size: 1.7rem; font-weight: 800; letter-spacing: 1px; color: #ffffff; }
+        .card { background: var(--card-bg); border-top: 4px solid var(--primary-burgundy); border-radius: 10px; padding: 20px; margin-bottom: 15px; border-left: 1px solid var(--border-muted); border-right: 1px solid var(--border-muted); border-bottom: 1px solid var(--border-muted); }
+        .symptom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
+        .check-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; background: #1a1a1a; padding: 8px; border-radius: 6px; border: 1px solid var(--border-muted); }
+        .check-item input { accent-color: var(--primary-burgundy); }
+        .action-btn { width: 100%; padding: 12px; font-weight: bold; font-size: 0.88rem; text-transform: uppercase; border-radius: 6px; border: none; cursor: pointer; background-color: var(--primary-burgundy); color: white; display: block; text-align: center; text-decoration: none; margin-top: 15px; }
+        .suggester-box { background: #0c101f; border-left: 4px solid #1aa7ec; padding: 12px; border-radius: 6px; font-size: 0.82rem; margin-top: 12px; display: none; line-height: 1.4; }
     </style>
+    <script>
+        function analyzeSymptoms() {
+            const boxes = document.querySelectorAll('.symptom-check');
+            let selected = [];
+            boxes.forEach(cb => { if(cb.checked) selected.push(cb.value); });
+            
+            const box = document.getElementById('suggestionEngineBox');
+            const txt = document.getElementById('suggestionEngineText');
+            
+            if(selected.length === 0) { box.style.display = 'none'; return; }
+            box.style.display = 'block';
+            
+            let html = `📋 <strong>COMPULSORY ASSAY CORE MANDATED:</strong><br>• Full Blood Count (FBC)<br>• Malaria Parasite (RDT)<br>• Random Blood Sugar (RBS)<br>• Urinalysis Dipstick Matrix<br><br>⚡ <strong>INTELLIGENT CLINICAL RISK RECOMMENDATED PANELS:</strong>`;
+            
+            let triggerAdvanced = false;
+            selected.forEach(s => {
+                if(s === 'fever' || s === 'chills') {
+                    html += `<br><span style="color:var(--accent-gold);">🧬 CRP/PCT Sepsis Combo Panel Appended</span>`;
+                    triggerAdvanced = true;
+                }
+                if(s === 'fatigue' || s === 'weight') {
+                    html += `<br><span style="color:var(--accent-gold);">🧬 Finecare® Cortisol & Vitamin-D Suite Appended</span>`;
+                    triggerAdvanced = true;
+                }
+                if(s === 'polyuria' || s === 'thirst') {
+                    html += `<br><span style="color:var(--accent-gold);">🧬 Complete Metabolic & Renal Function Panel (RFT) Appended</span>`;
+                    triggerAdvanced = true;
+                }
+            });
+            
+            if(!triggerAdvanced) { html += `<br><span style="color:#4caf50;">✓ Standard baseline parameters compliant for routine screening.</span>`; }
+            txt.innerHTML = html;
+        }
+    </script>
 </head>
 <body>
-    <div class="app-shell">
-        <div class="app-header">
-            <h1 class="app-title">🔬 MECAPL</h1>
-            <div class="app-tagline">Independent Healthcare Dispatcher Network</div>
-        </div>
-        
-        <div class="usp-banner">
-            🚀 <span class="usp-highlight">The MECAPL Difference:</span> We do not require you to sit in crowded waiting rooms. We are an on-demand, technology-driven clinical logistics core delivering <span class="usp-highlight">Express VIP Doorstep Extractions</span> straight to your location with lightning-speed digital medical reports.
+    <div class="wrapper">
+        <div class="brand-header">
+            <div class="brand-title">🔬 MECAPL HEALTHCARE</div>
+            <div style="color: var(--accent-gold); font-size: 0.72rem; font-weight: bold; text-transform: uppercase; margin-top: 4px;">Technology-Driven Precision Diagnostics</div>
         </div>
 
-        <div class="fleet-status-bar">⚡ DISPATCH PHLEBOTOMY FLEET STATUS: DISPATCH READY</div>
-        
-        <!-- Button 1 -->
-        <a href="flier.html" class="dispatch-card">
-            <div class="icon-box" style="background-color: var(--clinical-navy);">⚡</div>
-            <div class="card-details">
-                <div class="card-title">1. Express On-Demand Booking</div>
-                <div class="card-desc">Call a high-tech phlebotomy node to your doorstep. Includes automated symptom triage mapping.</div>
+        <div class="card">
+            <div style="font-size: 0.9rem; color: var(--accent-gold); font-weight: bold; text-transform: uppercase; margin-bottom: 8px; border-bottom: 1px solid #222; padding-bottom: 4px;">🛰️ Smart Symptom Screening Core</div>
+            <div style="font-size: 0.78rem; color: #aaa; margin-bottom: 10px;">Select presenting symptoms to automatically compute clinical testing frameworks:</div>
+            
+            <div class="symptom-grid">
+                <div class="check-item"><input type="checkbox" class="symptom-check" value="fever" onclick="analyzeSymptoms()"> Fever / Pyrexia</div>
+                <div class="check-item"><input type="checkbox" class="symptom-check" value="chills" onclick="analyzeSymptoms()"> Rigors / Chills</div>
+                <div class="check-item"><input type="checkbox" class="symptom-check" value="fatigue" onclick="analyzeSymptoms()"> Lethargy / Fatigue</div>
+                <div class="check-item"><input type="checkbox" class="symptom-check" value="weight" onclick="analyzeSymptoms()"> Unexplained Weight Shift</div>
+                <div class="check-item"><input type="checkbox" class="symptom-check" value="polyuria" onclick="analyzeSymptoms()"> Frequent Urination</div>
+                <div class="check-item"><input type="checkbox" class="symptom-check" value="thirst" onclick="analyzeSymptoms()"> Polydipsia / Intense Thirst</div>
             </div>
-            <div class="arrow-indicator">➔</div>
-        </a>
 
-        <!-- Button 2 -->
-        <a href="patient_portal.html" class="dispatch-card">
-            <div class="icon-box" style="background-color: var(--primary-burgundy);">🔒</div>
-            <div class="card-details">
-                <div class="card-title">2. Secured EHR Result Portal</div>
-                <div class="card-desc">Access unalterable, encrypted digital medical records and diagnostic laboratory parameters instantly.</div>
+            <div id="suggestionEngineBox" class="suggester-box">
+                <div id="suggestionEngineText"></div>
             </div>
-            <div class="arrow-indicator">➔</div>
-        </a>
+        </div>
 
-        <!-- Button 3 -->
-        <a href="storefront.html" class="dispatch-card">
-            <div class="icon-box" style="background-color: #2e7d32;">📦</div>
-            <div class="card-details">
-                <div class="card-title">3. Consumables Procurement</div>
-                <div class="card-desc">Browse specialized medical tools and inventory counters with instant WhatsApp checkout billing.</div>
-            </div>
-            <div class="arrow-indicator">➔</div>
-        </a>
-
-        <div class="footer-stamp">MECAPL Secure Core Subsystem • Serrekunda, The Gambia</div>
+        <div class="card" style="border-top-color: var(--clinical-blue); padding: 15px; text-align: center;">
+            <div style="font-size: 0.8rem; color: #fff; font-weight: bold; text-transform: uppercase; margin-bottom: 6px;">🚪 Ready to Launch Extraction Fleet?</div>
+            <div style="font-size: 0.75rem; color: #aaa; margin-bottom: 10px;">Proceed straight to doorstep deployment, secure checkout pipelines, and live billing grids:</div>
+            <a href="flier.html" class="action-btn">➔ Open Doorstep Booking Portal</a>
+            <a href="storefront.html" class="action-btn" style="background-color: var(--clinical-blue); margin-top: 8px;">➔ Open Managing Director Terminal</a>
+        </div>
     </div>
 </body>
 </html>
