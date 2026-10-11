@@ -16,6 +16,14 @@
         .check-item input { accent-color: var(--primary-burgundy); }
         .action-btn { width: 100%; padding: 12px; font-weight: bold; font-size: 0.88rem; text-transform: uppercase; border-radius: 6px; border: none; cursor: pointer; background-color: var(--primary-burgundy); color: white; display: block; text-align: center; text-decoration: none; margin-top: 15px; }
         .suggester-box { background: #0c101f; border-left: 4px solid #1aa7ec; padding: 12px; border-radius: 6px; font-size: 0.82rem; margin-top: 12px; display: none; line-height: 1.4; }
+    
+        /* Advanced Top Left Admin Gateway Dropdown Styles */
+        .admin-nav-container { position: absolute; top: 12px; left: 12px; z-index: 9999; }
+        .nav-trigger-btn { background: #1a1a1a; border: 1px solid var(--border-muted); color: var(--accent-gold); padding: 8px 12px; font-size: 0.82rem; font-weight: bold; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .nav-dropdown-menu { display: none; position: absolute; top: 38px; left: 0; background: var(--card-bg); border: 1px solid var(--border-muted); border-top: 3px solid var(--primary-burgundy); border-radius: 6px; width: 220px; box-shadow: 0 6px 20px rgba(0,0,0,0.7); overflow: hidden; }
+        .nav-menu-item { display: block; width: 100%; padding: 12px; background: none; border: none; text-align: left; color: #ffffff; font-size: 0.82rem; cursor: pointer; text-decoration: none; border-bottom: 1px solid #1a1a1a; box-sizing: border-box; }
+        .nav-menu-item:hover { background: #1a1a1a; color: var(--accent-gold); }
+        .nav-menu-item.locked { border-left: 3px solid var(--primary-burgundy); }
     </style>
     <script>
         function analyzeSymptoms() {
@@ -53,6 +61,38 @@
     </script>
 </head>
 <body>
+    <!-- Elite Multi-Module Admin Gateway Navigation Menu -->
+    <div class="admin-nav-container">
+        <button type="button" class="nav-trigger-btn" onclick="toggleAdminNavMenu()">☰ Gateway Navigation</button>
+        <div id="adminNavDropdown" class="nav-dropdown-menu">
+            <a href="index.html" class="nav-menu-item">🏠 Storefront Welcome Page</a>
+            <a href="flier.html" class="nav-menu-item">🛒 Patient Booking Portal</a>
+            <a href="pharmacy_portal.html" class="nav-menu-item">💊 Pharmacy & Rx Router</a>
+            <button type="button" class="nav-menu-item locked" onclick="secureGatewayRoute('storefront.html')">📡 Director Dashboard [🔒]</button>
+            <button type="button" class="nav-menu-item locked" onclick="secureGatewayRoute('reference_submission.html')">📈 B2B Billing Ledger [🔒]</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleAdminNavMenu() {
+            const m = document.getElementById('adminNavDropdown');
+            m.style.display = (m.style.display === 'block') ? 'none' : 'block';
+        }
+        // Close menu if user taps anywhere else on the screen view
+        window.addEventListener('click', function(e) {
+            if (!e.target.matches('.nav-trigger-btn')) {
+                document.getElementById('adminNavDropdown').style.display = 'none';
+            }
+        });
+        function secureGatewayRoute(targetUrl) {
+            const pass = prompt("🔒 MECAPL CENTRAL SECURITY SECURE HANDSHAKE:\nEnter Director Authentication Code to unseal database routes:");
+            if (pass === "1982") {
+                window.location.href = targetUrl;
+            } else if (pass !== null) {
+                alert("Security Violation. Gateway Route Sealed.");
+            }
+        }
+    </script>
     <div class="wrapper">
         <div class="brand-header">
             <div class="brand-title">🔬 MECAPL HEALTHCARE</div>
