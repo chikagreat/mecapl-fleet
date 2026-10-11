@@ -13,7 +13,7 @@
         .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .metric-card { background: #1e1e1e; border: 1px solid var(--border-muted); padding: 10px; border-radius: 6px; text-align: center; }
         .metric-value { font-size: 1.1rem; font-weight: bold; color: var(--accent-gold); margin-top: 4px; }
-        .form-select, .form-input { width: 100%; padding: 10px; background: #1e1e1e; border: 1px solid var(--border-muted); border-radius: 6px; color: #ffffff; font-size: 0.88rem; box-sizing: border-box; margin-bottom: 10px; }
+        .form-select, .form-input { width: 100%; padding: 10px; background: #1a1a1a; border: 1px solid var(--border-muted); border-radius: 6px; color: #ffffff; font-size: 0.88rem; box-sizing: border-box; margin-bottom: 10px; }
         .action-btn { background-color: var(--clinical-blue); color: white; border: none; width: 100%; padding: 12px; font-size: 0.9rem; font-weight: bold; border-radius: 6px; cursor: pointer; text-transform: uppercase; }
         .invoice-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-top: 15px; text-align: left; }
         .invoice-table th { color: var(--accent-gold); border-bottom: 2px solid var(--border-muted); padding: 6px; }
@@ -23,13 +23,15 @@
         let grossSales = 0; let totalWholesaleCost = 0; let netArbitrageProfit = 0;
         function processArbitrage() {
             const select = document.getElementById('ledgerTestSelect'); if (!select.value) return;
-            const ptName = document.getElementById('ledgerPtName').value.trim() || "WALK-IN REF";
+            const ptName = document.getElementById('ledgerPtName').value.trim();
+            if (!ptName) { alert('Please assign a Patient Tracking ID.'); return; }
             const partner = document.getElementById('partnerSelect').value;
+            
+            // Fixed extraction logic parsing native array values accurately
             const selectedText = select.options[select.selectedIndex].text;
             const retailPrice = parseInt(select.value.split('|')[1]) || 1500;
             const testName = selectedText.split(' - ')[0];
             
-            // Apply hardcoded 27.5% corporate wholesale arbitrage discount
             const wholesaleCost = Math.round(retailPrice * (1 - 0.275));
             const individualProfit = retailPrice - wholesaleCost;
             
@@ -39,7 +41,6 @@
         }
         function updateMetrics() {
             document.getElementById('grossSalesDisplay').innerText = 'D ' + grossSales.toLocaleString();
-            document.getElementById('wholesaleCostDisplay').innerText = 'D ' + totalWholesaleCost.toLocaleString();
             document.getElementById('netProfitDisplay').innerText = 'D ' + netArbitrageProfit.toLocaleString();
         }
         function appendRow(pt, test, partner, retail, cost, profit) {
@@ -76,8 +77,6 @@
                 <option value="Standard Baseline Check|1500">Standard Baseline Check - D 1,500</option>
                 <option value="Finecare® Progesterone Assay|1200">Finecare® Progesterone - D 1,200</option>
                 <option value="Finecare® Cardiac Markers Combo|3500">Finecare® Cardiac Combo - D 3,500</option>
-                <option value="Serum Electrolytes Profile|1200">Serum Electrolytes Panel - D 1,200</option>
-                <option value="Complete Coagulation Profile|1800">Coagulation Profile (PT/INR) - D 1,800</option>
                 <option value="Liver Function Panel (LFT)|2200">Liver Function Panel (LFT) - D 2,200</option>
                 <option value="Kidney Function Panel (RFT)|1800">Kidney Function Panel (RFT) - D 1,800</option>
             </select>
