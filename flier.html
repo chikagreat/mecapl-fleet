@@ -65,8 +65,14 @@
             if (!token) { alert('Please input your Wave reference token hash.'); return; }
             let testStr = selectedTests.length > 0 ? selectedTests.map(t => t.name).join(', ') : 'None Added (Base Only)';
             const payload = `🔬 *MECAPL HEALTHCARE: ACTIVE VIP DISPATCH*\n----------------------------\n• *Patient:* ${name}\n• *Route Chosen:* ${selectedRoute}\n• *Appended Assays:* ${testStr}\n• *Payment Token Reference:* ${token}\n• *TOTAL CLEARING POOL:* ${(basePrice + addonTotal).toLocaleString()}.00 GMD`;
-                        const whatsappUrl = `https://wa.me\${encodeURIComponent(payload)}`;
-            window.open(whatsappUrl, '_blank');
+        const whatsappUrl = `https://wa.me{encodeURIComponent(payload)}`;
+        window.open(whatsappUrl, '_blank');
+        const whatsappUrl = `https://wa.me{encodeURIComponent(payload)}`;
+        window.open(whatsappUrl, '_blank');
+        const whatsappUrl = `https://wa.me{encodeURIComponent(payload)}`;
+        window.open(whatsappUrl, '_blank');
+        const whatsappUrl = `https://wa.me{encodeURIComponent(payload)}`;
+        window.open(whatsappUrl, '_blank');
         }
     </script>
 </head>
