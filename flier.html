@@ -1,20 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MECAPL Health Care Services</title>
-</head>
-<body>
-    <script>
-        // Formatted order payload mapping
-        const payload = "Hello, I have completed my MECAPL registration reference T_WYCF3PIOT5QHIFZG.";
-        
-        // Corrected JavaScript template literal utilizing proper backticks and variables
-        const whatsappUrl = `https://wa.me{encodeURIComponent(payload)}`;
-        
-        // Redirect execution
-        window.open(whatsappUrl, '_blank');
-    </script>
-</body>
-</html>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>MECAPL Health Care Services</title></head><body><script>
+const payload = "Hello, I have completed my MECAPL registration reference T_WYCF3PIOT5QHIFZG.";
+const whatsappUrl = "https://wa.me" + encodeURIComponent(payload);
+window.open(whatsappUrl, "_blank");
+</script></body></html>
