@@ -69,6 +69,7 @@
             txt.innerHTML = html;
         }
     </script>
+    <script src="https://cloudflare.com"></script>
 </head>
 <body>
     <!-- Elite Multi-Module Admin Gateway Navigation Menu -->
@@ -200,6 +201,23 @@
         <div class="card" style="border-top-color: var(--clinical-blue); padding: 15px; text-align: center;">
             <div style="font-size: 0.8rem; color: #fff; font-weight: bold; text-transform: uppercase; margin-bottom: 6px;">🚪 Ready to Launch Extraction Fleet?</div>
             <div style="font-size: 0.75rem; color: #aaa; margin-bottom: 10px;">Proceed straight to doorstep deployment, secure checkout pipelines, and live billing grids:</div>
+            <!-- High-Resolution Promotional QR Code Engine -->
+            <div style="background: #1a1a1a; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px dashed var(--border-muted); display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <div id="mecaplPromoQRCode"></div>
+                <div style="font-size: 0.68rem; color: var(--accent-gold); font-weight: bold; text-transform: uppercase; margin-top: 8px; text-align: center;">Scan Flier QR to Launch Mobile App</div>
+            </div>
+            <script>
+                window.addEventListener('load', () => {
+                    new QRCode(document.getElementById("mecaplPromoQRCode"), {
+                        text: "https://onrender.com",
+                        width: 140,
+                        height: 140,
+                        colorDark : "#800020",
+                        colorLight : "#ffffff",
+                        correctLevel : QRCode.CorrectLevel.H
+                    });
+                });
+            </script>
             <a href="flier.html" class="action-btn">➔ Open Doorstep Booking Portal</a>
             <a href="storefront.html" class="action-btn" style="background-color: var(--clinical-blue); margin-top: 8px;">➔ Open Managing Director Terminal</a>
         </div>
