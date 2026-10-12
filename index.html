@@ -8,7 +8,7 @@
         :root { --primary-burgundy: #800020; --clinical-blue: #002366; --accent-gold: #ffaa00; --bg-dark: #070707; --card-bg: #121212; --border-muted: #222222; --text-light: #f8f9fa; }
         body { font-family: sans-serif; background-color: var(--bg-dark); color: var(--text-light); margin: 0; padding: 16px; display: flex; flex-direction: column; align-items: center; }
         .wrapper { max-width: 500px; width: 100%; box-sizing: border-box; }
-        .brand-header { text-align: center; border-bottom: 1px solid var(--border-muted); padding-bottom: 15px; margin-bottom: 20px; }
+        .brand-header { text-align: center; border-bottom: 1px solid var(--border-muted); padding-top: 35px; padding-bottom: 15px; margin-bottom: 20px; }
         .brand-title { font-size: 1.7rem; font-weight: 800; letter-spacing: 1px; color: #ffffff; }
         .card { background: var(--card-bg); border-top: 4px solid var(--primary-burgundy); border-radius: 10px; padding: 20px; margin-bottom: 15px; border-left: 1px solid var(--border-muted); border-right: 1px solid var(--border-muted); border-bottom: 1px solid var(--border-muted); }
         .symptom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
@@ -18,8 +18,8 @@
         .suggester-box { background: #0c101f; border-left: 4px solid #1aa7ec; padding: 12px; border-radius: 6px; font-size: 0.82rem; margin-top: 12px; display: none; line-height: 1.4; }
     
         /* Advanced Top Left Admin Gateway Dropdown Styles */
-        .admin-nav-container { position: absolute; top: 12px; left: 12px; z-index: 9999; }
-        .nav-trigger-btn { background: #1a1a1a; border: 1px solid var(--border-muted); color: var(--accent-gold); padding: 8px 12px; font-size: 0.82rem; font-weight: bold; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .admin-nav-container { position: fixed; top: 14px; left: 14px; z-index: 99999; }
+        .nav-trigger-btn { background: rgba(26, 26, 26, 0.95); border: 1px solid #ffaa00; color: #ffaa00; padding: 6px 10px; font-size: 0.75rem; font-weight: bold; border-radius: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.6); backdrop-filter: blur(4px); }
         .nav-dropdown-menu { display: none; position: absolute; top: 38px; left: 0; background: var(--card-bg); border: 1px solid var(--border-muted); border-top: 3px solid var(--primary-burgundy); border-radius: 6px; width: 220px; box-shadow: 0 6px 20px rgba(0,0,0,0.7); overflow: hidden; }
         .nav-menu-item { display: block; width: 100%; padding: 12px; background: none; border: none; text-align: left; color: #ffffff; font-size: 0.82rem; cursor: pointer; text-decoration: none; border-bottom: 1px solid #1a1a1a; box-sizing: border-box; }
         .nav-menu-item:hover { background: #1a1a1a; color: var(--accent-gold); }
@@ -74,7 +74,7 @@
 <body>
     <!-- Elite Multi-Module Admin Gateway Navigation Menu -->
     <div class="admin-nav-container">
-        <button type="button" class="nav-trigger-btn" onclick="toggleAdminNavMenu()">☰ Gateway Navigation</button>
+        <button type="button" class="nav-trigger-btn" onclick="toggleAdminNavMenu()">☰ Menu</button>
         <div id="adminNavDropdown" class="nav-dropdown-menu">
             <a href="index.html" class="nav-menu-item">🏠 Storefront Welcome Page</a>
             <a href="flier.html" class="nav-menu-item">🛒 Patient Booking Portal</a>
