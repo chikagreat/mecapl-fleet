@@ -59,6 +59,14 @@
             const finalizedUrl = domainBase + targetPhone + queryParam + encodeURIComponent(payload);
             
             window.open(finalizedUrl, '_blank');
+            
+            // Strategic Marketing Automatic Flyer Download Engine
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.href = 'generated/mecapl_marketing_flyer.pdf';
+            downloadAnchor.download = 'MECAPL_Healthcare_Flyer.pdf';
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            document.body.removeChild(downloadAnchor);
         }
     </script>
 </body>
