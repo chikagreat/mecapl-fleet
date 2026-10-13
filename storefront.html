@@ -15,7 +15,14 @@
         .section-card { background: var(--card-bg); border-top: 4px solid var(--primary-burgundy); border-radius: 10px; padding: 20px; border-left: 1px solid var(--border-muted); border-right: 1px solid var(--border-muted); border-bottom: 1px solid var(--border-muted); }
         .admin-card { border-top-color: var(--clinical-blue); display: none; }
         .form-input, .form-select, .form-textarea { width: 100%; padding: 10px; background: #1a1a1a; border: 1px solid var(--border-muted); border-radius: 6px; color: #ffffff; font-size: 0.88rem; box-sizing: border-box; margin-bottom: 10px; }
-        .action-btn { width: 100%; padding: 12px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase; border-radius: 6px; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px; }
+        
+        .action-btn { width: 100%; padding: 12px; font-weight: bold; transition: all 0.2s ease; position: relative; overflow: hidden; }
+        .action-btn:active { transform: scale(0.96); opacity: 0.9; }
+        .loading-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 0.8s linear infinite; margin-right: 8px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .feedback-toast { background: #1b5e20; color: #4caf50; padding: 10px; border-radius: 6px; font-size: 0.8rem; margin-top: 10px; border: 1px solid #4caf50; text-align: center; display: none; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        .action-btn { font-size: 0.85rem; text-transform: uppercase; border-radius: 6px; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px; }
         .btn-burgundy { background-color: var(--primary-burgundy); color: white; }
         .btn-blue { background-color: var(--clinical-blue); color: white; }
         .btn-gold { background-color: var(--accent-gold); color: #000; }
@@ -42,8 +49,26 @@
             const [pName, pPrice] = product.split('|');
             const orderId = "MEC-" + Math.floor(1000 + Math.random() * 9000);
             
-            ordersPool.push({ id: orderId, client: name, age: age, items: pName, location: location, status: "Pending Results Input", results: null, interpretation: "" });
-            alert("🔒 Premium Request Injected Successfully. Transaction ID Assigned: " + orderId);
+            // Toggle Button Processing State
+            const btn = e.target || document.querySelector('.btn-burgundy');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<div class="loading-spinner"></div> TRANSMITTING SECURE REQUEST...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                ordersPool.push({ id: orderId, client: name, age: age, items: pName, location: location, status: "Pending Results Input", results: null, interpretation: "" });
+                
+                // Show visual feedback toast
+                const toast = document.getElementById('uiFeedbackToast');
+                toast.innerText = `🔒 REQUEST SECURELY INJECTED. ID: ${orderId}`;
+                toast.style.display = 'block';
+                
+                // Reset Button
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                
+                setTimeout(() => { toast.style.display = 'none'; }, 4000);
+            }, 800);
             
             document.getElementById('custName').value = '';
             document.getElementById('custAge').value = '';
@@ -136,7 +161,7 @@
                     <option value="Premium Liver Function Suite (LFT)|2200">Liver Function Suite (LFT) - D 2,200</option>
                     <option value="Advanced Renal Monitoring Suite (RFT)|1800">Kidney Function Panel (RFT) - D 1,800</option>
                 </select>
-                <button type="button" class="action-btn btn-burgundy" onclick="submitCustomerOrder()">🔒 Initialize Secured Doorstep Order Request</button>
+                <button type="button" class="action-btn btn-burgundy" onclick="submitCustomerOrder(event)">🔒 Initialize Secured Doorstep Order Request</button>
             </div>
 
             <!-- Managing Director's Advanced AI Control Terminal Panel -->
