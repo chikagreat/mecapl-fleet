@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MECAPL Patient Results Portal</title>
+    <style>
+        :root { --primary-burgundy: #800020; --clinical-blue: #002366; --accent-gold: #ffaa00; --bg-dark: #0a0a0a; --card-bg: #141414; --text-light: #f8f9fa; --border-muted: #222222; }
+        body { font-family: sans-serif; background-color: var(--bg-dark); color: var(--text-light); margin: 0; padding: 12px; display: flex; flex-direction: column; align-items: center; }
+        .portal-container { background: var(--card-bg); border-top: 6px solid var(--accent-gold); border-radius: 12px; padding: 20px; max-width: 480px; width: 100%; box-sizing: border-box; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .header-main { text-align: center; border-bottom: 1px solid var(--border-muted); padding-bottom: 12px; margin-bottom: 15px; }
+        .brand-title { color: #ffffff; font-size: 1.4rem; font-weight: 800; }
+        .form-input { width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid var(--border-muted); border-radius: 6px; color: #ffffff; font-size: 0.88rem; box-sizing: border-box; text-align: center; margin-bottom: 12px; }
+        .action-btn { background-color: var(--primary-burgundy); color: white; border: none; width: 100%; padding: 12px; font-size: 0.9rem; font-weight: bold; border-radius: 6px; cursor: pointer; text-transform: uppercase; text-align: center; text-decoration: none; display: block; box-sizing: border-box; }
+        .report-view-card { display: none; background: #fff; color: #000; padding: 15px; border-radius: 8px; margin-top: 15px; font-size: 0.8rem; line-height: 1.4; }
+        .metric-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.75rem; }
+        .metric-table th { background: var(--clinical-blue); color: #fff; padding: 6px; text-align: left; }
+        .metric-table td { border-bottom: 1px solid #ddd; padding: 6px; }
+        .directive-box { background: #fffde7; border-left: 4px solid var(--primary-burgundy); padding: 10px; margin-top: 10px; font-size: 0.78rem; }
+    </style>
+    <script>
+        function retrievePatientReport() {
+            const id = document.getElementById('searchTrackId').value.trim().toUpperCase();
+            if(id !== "MEC-8457") { alert("Tracking ID not found. Verify your reference key and try again."); return; }
+            
+            document.getElementById('reportDisplayArea').style.display = "block";
+        }
+    </script>
+</head>
+<body>
+    <div class="portal-container">
+        <div class="header-main">
+            <div class="brand-title">🔬 MECAPL RESULTS HUB</div>
+            <div style="color: var(--accent-gold); font-size: 0.72rem; font-weight: bold; text-transform: uppercase; margin-top: 4px;">Secure Paperless Diagnostic Retrieval</div>
+        </div>
+
+        <input type="text" id="searchTrackId" class="form-input" placeholder="ENTER ASSIGNED TRACKING ID (e.g. MEC-8457)">
+        <button type="button" class="action-btn" onclick="retrievePatientReport()">➔ Retrieve Professional Interpretation</button>
+
+        <!-- Dynamic Crispy Presentation Template Area -->
+        <div id="reportDisplayArea" class="report-view-card">
+            <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 5px; margin-bottom: 10px;">
+                <strong style="font-size: 1.1rem; color: #800020;">MECAPL HEALTHCARE SERVICES</strong><br>
+                <small style="font-size:0.6rem; color:#555; font-weight:bold;">CLINICAL DOORSTEP PRECISION | THE GAMBIA</small>
+            </div>
+            
+            <strong>Patient Name:</strong> Fatou Njie<br>
+            <strong>Age / Gender:</strong> 38 Years / Female<br>
+            <strong>Date Generated:</strong> 13/10/2026<br>
+            <strong>Logistics Anchor:</strong> Bajaj Boxer 150cc Fleet Node
+            <hr style="border: 0.5px solid #ddd; margin: 10px 0;">
+
+            <strong style="color:var(--clinical-blue);">📋 LABORATORY ASSAY METRICS:</strong>
+            <table class="metric-table">
+                <thead>
+                    <tr><th>Assay</th><th>Value</th><th>Interval</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>D-Dimer</td><td><strong>6.84 mg/L</strong></td><td>0-0.5 mg/L</td><td style="color:red; font-weight:bold;">PANIC 🚨</td></tr>
+                    <tr><td>WBC</td><td><strong>15.3 x10³/µL</strong></td><td>4-12 x10³/µL</td><td style="color:red; font-weight:bold;">HIGH ⬆️</td></tr>
+                    <tr><td>PLT</td><td><strong>122 x10³/µL</strong></td><td>150-400 x10³/µL</td><td style="color:orange; font-weight:bold;">LOW ⬇️</td></tr>
+                    <tr><td>hsCRP</td><td>&lt; 5.0 mg/L</td><td>&lt; 5.0 mg/L</td><td>Normal</td></tr>
+                    <tr><td>PCT</td><td>0.28 ng/mL</td><td>0-0.5 ng/mL</td><td>Normal</td></tr>
+                </tbody>
+            </table>
+
+            <div class="directive-box">
+                <strong style="color:#800020;">⚡ CRISPY PROFESSIONAL DIRECTIVES:</strong><br>
+                1. <strong>CRITICAL VASCULAR INTERCEPT:</strong> High D-Dimer at 6.84 mg/L requires immediate Doppler ultrasound or CTPA imaging scanning to target microvascular clot obstructions under doctor custody.<br><br>
+                2. <strong>HEMATOLOGY REMEASUREMENT PROTOCOL:</strong> Red cell aggregation ("Cold Agglutinin") detected. Pre-warm fresh Whole Blood tube to 37°C for 20 mins and re-run immediately while warm to secure absolute baseline accuracy.
+            </div>
+
+            <div style="margin-top:15px; font-size:0.65rem; color:#555; border-top:1px solid #eee; padding-top:8px;">
+                <strong>Verified By:</strong> Chinedu C. Ndukwu, <i>Senior Medical Scientist</i><br>
+                <strong>Transit Node status:</strong> <i>Active Fleet Tracker Triggered</i>
+            </div>
+            
+            <!-- Strategic Marketing Download Anchor File -->
+            <a href="generated/MECAPL_Patient_Result_Sample.pdf" download="MECAPL_Patient_Report.pdf" class="action-btn" style="margin-top:15px; background:var(--clinical-blue); font-size:0.8rem;">⬇️ Download Crispy PDF Report</a>
+        </div>
+    </div>
+</body>
+</html>
