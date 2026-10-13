@@ -40,7 +40,12 @@
                 </div>`;
                 
             // Open secure automated WhatsApp bridge to dispatch transit rider
-            window.open(`https://wa.me{encodeURIComponent(payload)}`, '_blank');
+                        // Bulletproof unclipped URL construction framework
+            const domainBase = "https://" + "wa.me";
+            const targetPhone = "/220872159724";
+            const queryParam = "?text=";
+            const finalizedUrl = domainBase + targetPhone + queryParam + encodeURIComponent(payload);
+            window.open(finalizedUrl, '_blank');
         }
     </script>
 </head>
