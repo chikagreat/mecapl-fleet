@@ -50,7 +50,7 @@
             const orderId = "MEC-" + Math.floor(1000 + Math.random() * 9000);
             
             // Toggle Button Processing State
-            const btn = e.target || document.querySelector('.btn-burgundy');
+            const btn = document.querySelector('.btn-burgundy');
             const originalText = btn.innerHTML;
             btn.innerHTML = '<div class="loading-spinner"></div> TRANSMITTING SECURE REQUEST...';
             btn.disabled = true;
@@ -161,7 +161,7 @@
                     <option value="Premium Liver Function Suite (LFT)|2200">Liver Function Suite (LFT) - D 2,200</option>
                     <option value="Advanced Renal Monitoring Suite (RFT)|1800">Kidney Function Panel (RFT) - D 1,800</option>
                 </select>
-                <button type="button" class="action-btn btn-burgundy" onclick="submitCustomerOrder(event)">🔒 Initialize Secured Doorstep Order Request</button>
+                <button type="button" class="action-btn btn-burgundy" onclick="submitCustomerOrder()">🔒 Initialize Secured Doorstep Order Request</button>
             </div>
 
             <!-- Managing Director's Advanced AI Control Terminal Panel -->
