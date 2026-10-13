@@ -10,45 +10,43 @@
         .terminal-container { background: var(--card-bg); border-top: 6px solid var(--primary-burgundy); border-radius: 12px; padding: 20px; max-width: 460px; width: 100%; box-sizing: border-box; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .header-main { text-align: center; border-bottom: 1px solid var(--border-muted); padding-bottom: 12px; margin-bottom: 15px; }
         .brand-title { color: #ffffff; font-size: 1.4rem; font-weight: 800; }
-        .form-select, .form-input { width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid var(--border-muted); border-radius: 6px; color: #ffffff; font-size: 0.88rem; box-sizing: border-box; margin-bottom: 10px; }
-        .action-btn { background-color: var(--primary-burgundy); color: white; border: none; width: 100%; padding: 12px; font-size: 0.9rem; font-weight: bold; border-radius: 6px; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; }
-        .action-btn:active { transform: scale(0.96); opacity: 0.9; }
-        .loading-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #fff; animation: spin 0.8s linear infinite; margin-right: 8px; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .feedback-toast { background: #1b5e20; color: #4caf50; padding: 10px; border-radius: 6px; font-size: 0.8rem; margin-top: 10px; border: 1px solid #4caf50; text-align: center; display: none; }
-        .admin-gate-btn { display: none; width: 100%; padding: 12px; background: #002366; color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 0.85rem; cursor: pointer; margin-top: 15px; text-decoration: none; text-align: center; text-transform: uppercase; box-sizing: border-box; }
-        .auth-box-container { margin-top: 20px; border-top: 1px solid var(--border-muted); padding-top: 15px; text-align: center; }
+        .form-input { width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid var(--border-muted); border-radius: 6px; color: #ffffff; font-size: 0.88rem; box-sizing: border-box; text-align: center; }
+        .action-btn { background-color: var(--clinical-blue); color: white; border: none; width: 100%; padding: 12px; font-size: 0.9rem; font-weight: bold; border-radius: 6px; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
+        .monitor-card { background: #111; border: 1px solid var(--border-muted); border-left: 4px solid var(--accent-gold); padding: 12px; border-radius: 6px; margin-top: 12px; font-size: 0.82rem; }
     </style>
 </head>
 <body>
     <div class="terminal-container">
         <div class="header-main">
             <div class="brand-title">🔬 MECAPL HEALTHCARE</div>
-            <div style="color: var(--accent-gold); font-size: 0.72rem; font-weight: bold; text-transform: uppercase; margin-top: 4px;">Premium AI-Powered Diagnostic Dispatch & Core Server</div>
-        </div>
-        
-        <div id="adminFormSection">
-            <div style="font-size: 0.82rem; color: var(--accent-gold); font-weight: bold; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #222; padding-bottom: 4px;">🛒 Secure Procurement Node</div>
-            <input type="text" id="storePtName" class="form-input" placeholder="e.g. Sadiatou Jallow">
-            <input type="text" id="storePtAge" class="form-input" placeholder="e.g. 6 weeks or 38 years">
-            <input type="text" id="storePtLocation" class="form-input" placeholder="e.g. Westfield Corridor Hub">
-            
-            <select id="storeTestSelect" class="form-select">
-                <option value="Compulsory Baseline Check|1500">Compulsory Baseline (FBC+RDT+RBS+Uri) - D 1,500</option>
-                <option value="Fever Baseline + CRP/PCT Sepsis Combo|2500">Fever Baseline + CRP/PCT Sepsis Panel - D 2,200</option>
-                <option value="Finecare® Cardiac Markers Combo|3500">Finecare® Cardiac Combo (CK-MB/cTnI) - D 3,500</option>
-            </select>
-            
-            <button type="button" id="storeSubmitBtn" class="action-btn" onclick="submitCustomerOrder()">🔒 Initialize Secured Doorstep Order Request</button>
-            <div id="uiFeedbackToast" class="feedback-toast"></div>
+            <div style="color: var(--accent-gold); font-size: 0.72rem; font-weight: bold; text-transform: uppercase; margin-top: 4px;">Sovereign Director Control Deck</div>
         </div>
 
-        <div class="auth-box-container" id="authGateContainer">
-            <input type="password" id="sysPinInput" class="form-input" placeholder="••••" style="text-align: center; max-width: 180px; margin: 0 auto 10px auto; display: block;">
-            <button type="button" class="action-btn" style="background-color: #002366; font-size: 0.78rem; padding: 8px 16px; margin: 0 auto; display: block;" onclick="verifyCentralAuth()">🔐 Authenticate Backend Systems</button>
+        <!-- Secure PIN Authentication Gate View -->
+        <div id="authGateContainer" style="text-align: center; padding: 15px 0;">
+            <div style="font-size:0.8rem; color:#aaa; margin-bottom:10px;">ENTER DIRECTOR CODE TO UNSEAL DATABASE:</div>
+            <input type="password" id="sysPinInput" class="form-input" placeholder="••••" style="max-width: 140px; margin-bottom: 12px;">
+            <button type="button" class="action-btn" onclick="verifyCentralAuth()">🔓 Unseal Control Deck</button>
         </div>
-        
-        <a href="index.html" id="adminGateBtn" class="admin-gate-btn">📡 Managing Director Operations Terminal Active</a>
+
+        <!-- Live Operations Data Monitor (Hidden until Authenticated) -->
+        <div id="directorActiveConsole" style="display: none;">
+            <div style="font-size: 0.82rem; color: var(--accent-gold); font-weight: bold; text-transform: uppercase; border-bottom: 1px solid #222; padding-bottom: 4px; margin-bottom: 10px;">🛰️ Live Dispatch Monitor</div>
+            
+            <div class="monitor-card">
+                <span style="color:#00ff00; font-weight:bold;">🟢 ACTIVE DISPATCH RIDER IN TRANSIT</span><br>
+                <strong>Asset ID:</strong> Bajaj Boxer 150cc (Km 8457 E)<br>
+                <strong>Status:</strong> Cold-Chain Module Active<br>
+                <strong>Location Track:</strong> Sukuta / Westfield Corridor
+            </div>
+
+            <div class="monitor-card" style="border-left-color: var(--clinical-blue); margin-top: 10px;">
+                <span style="color:var(--text-light); font-weight:bold;">📋 PATIENT ASSAY LEDGER INCOMING</span><br>
+                <div style="font-size:0.75rem; color:#aaa; margin-top:4px;">Waiting for client handshake submissions from flier.html...</div>
+            </div>
+            
+            <a href="index.html" class="action-btn" style="background:#222; text-decoration:none; text-align:center; display:block; margin-top:15px; font-size:0.8rem;">➔ Return to Storefront</a>
+        </div>
     </div>
 
     <script>
@@ -56,54 +54,10 @@
             const pin = document.getElementById('sysPinInput').value;
             if(pin === "1982") {
                 document.getElementById('authGateContainer').style.display = 'none';
-                document.getElementById('adminGateBtn').style.display = 'block';
-                document.getElementById('uiFeedbackToast').style.display = 'none';
+                document.getElementById('directorActiveConsole').style.display = 'block';
             } else {
                 alert("Security Violation. Access Denied.");
             }
-        }
-
-        function submitCustomerOrder() {
-            const name = document.getElementById('storePtName').value.trim();
-            const age = document.getElementById('storePtAge').value.trim();
-            const location = document.getElementById('storePtLocation').value.trim();
-            const select = document.getElementById('storeTestSelect').value;
-            
-            if(!name || !location) { alert("Please compile all mandatory fields before processing data routing."); return; }
-            
-            const [testName, price] = select.split('|');
-            const orderId = "MEC-" + Math.floor(10000 + Math.random() * 90000);
-            
-            const payload = `🔬 *MECAPL DIRECT CORE INTERCEPT REPORT*\n----------------------------------------\n• *Order Tracking ID:* ${orderId}\n• *Patient Context:* ${name} (${age || 'Adult'})\n• *Transit Target:* ${location}\n• *Assay Dispatched:* ${testName}\n• *Valuation Parameter:* D ${parseInt(price).toLocaleString()}\n----------------------------------------\n✓ *Fleet Router Notification Triggered. Insulated Cold-Chain Module Active.*`;
-
-            const btn = document.getElementById('storeSubmitBtn');
-            btn.innerHTML = '<div class="loading-spinner"></div> TRANSMITTING SECURE REQUEST...';
-            btn.disabled = true;
-
-            setTimeout(() => {
-                // Clear form inputs immediately
-                document.getElementById('storePtName').value = '';
-                document.getElementById('storePtAge').value = '';
-                document.getElementById('storePtLocation').value = '';
-                
-                // Show visual feedback toast animation frames
-                const toast = document.getElementById('uiFeedbackToast');
-                toast.innerText = `🔒 SYSTEM LOCKED. LOGGED AS ${orderId}`;
-                toast.style.display = 'block';
-                
-                // Reset processing button state gracefully
-                btn.innerHTML = '🔒 Initialize Secured Doorstep Order Request';
-                btn.disabled = false;
-                
-                // Open secure automated WhatsApp bridge to dispatch transit rider
-                const domainBase = "https://" + "wa.me";
-                const targetPhone = "/220872159724";
-                const queryParam = "?text=";
-                const finalizedUrl = domainBase + targetPhone + queryParam + encodeURIComponent(payload);
-                window.open(finalizedUrl, '_blank');
-                
-                setTimeout(() => { toast.style.display = 'none'; }, 5000);
-            }, 1000);
         }
     </script>
 </body>
