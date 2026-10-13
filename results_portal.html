@@ -21,9 +21,52 @@
     <script>
         function retrievePatientReport() {
             const id = document.getElementById('searchTrackId').value.trim().toUpperCase();
-            if(id !== "MEC-8457") { alert("Tracking ID not found. Verify your reference key and try again."); return; }
             
+            
+            if(id === "MEC-8457") {
+                renderFatouReport();
+            } else if(id === "MEC-0043") {
+                renderAbduReport();
+            } else {
+                alert("Tracking ID not found. Verify your reference key and try again.");
+                return;
+            }
+        }
+    
+        function renderFatouReport() {
             document.getElementById('reportDisplayArea').style.display = "block";
+        }
+        function renderAbduReport() {
+            const area = document.getElementById('reportDisplayArea');
+            area.style.display = "block";
+            area.innerHTML = `
+                <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 5px; margin-bottom: 10px;">
+                    <strong style="font-size: 1.1rem; color: #800020;">MECAPL HEALTHCARE SERVICES</strong><br>
+                    <small style="font-size:0.6rem; color:#555; font-weight:bold;">CLINICAL DOORSTEP PRECISION | THE GAMBIA</small>
+                </div>
+                <strong>Patient Name:</strong> ABDU RAZZAQ<br>
+                <strong>Sample ID:</strong> 00043 | <strong>Date:</strong> 13/10/2026<br>
+                <strong>Transit Node status:</strong> <i>MECAPL Fleet Confirmed (Km 8457 E)</i>
+                <hr style="border: 0.5px solid #ddd; margin: 10px 0;">
+                <strong style="color:#002366;">📋 SYSTEMIC BIOMARKER MATRIX:</strong>
+                <table class="metric-table">
+                    <thead><tr><th>Assay Parameter</th><th>Result</th><th>Reference</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>Procalcitonin (PCT)</td><td><strong>32.78 ng/mL</strong></td><td>0.00-0.50</td><td style="color:red; font-weight:bold;">CRITICAL SEPSIS 🚨</td></tr>
+                        <tr><td>C-Reactive Protein (CRP)</td><td><strong>25.0 mg/L</strong></td><td>0.00-10.00</td><td style="color:red; font-weight:bold;">ELEVATED ⬆nt</td></tr>
+                        <tr><td>WBC Count</td><td><strong>5.9 x10³/µL</strong></td><td>4.0-12.0</td><td>Normal Limits</td></tr>
+                        <tr><td>Hemoglobin (HGB)</td><td><strong>10.0 g/dL</strong></td><td>11.0-17.0</td><td style="color:orange; font-weight:bold;">ANEMIA ⬇</td></tr>
+                        <tr><td>MCV (Cell Volume)</td><td><strong>67.2 fL</strong></td><td>80.0-100.0</td><td style="color:orange; font-weight:bold;">MICROCYTOSIS ⬇</td></tr>
+                    </tbody>
+                </table>
+                <div style="background:#fffde7; border-left:4px solid #800020; padding:10px; margin-top:10px; font-size:0.78rem;">
+                    <strong style="color:#800020;">⚡ CRISPY PROFESSIONAL MEDICAL DIRECTIVES:</strong><br>
+                    1. <strong>CRITICAL ACUTE SEPSIS ALERT:</strong> The massive Procalcitonin elevation at 32.78 ng/mL signals acute systemic bacterial infection. Immediate culture draws and broad-spectrum IV antibiotic therapeutic lines are urgently mandated under critical practitioner custody.<br><br>
+                    2. <strong>MICROCYTIC ANEMIA TRAIT:</strong> Explicit analyzer flags confirm severe Microcytosis (MCV 67.2 fL). Iron storage and transferrin profile diagnostics should be conducted post-acute crisis stabilization.
+                </div>
+                <div style="margin-top:15px; font-size:0.65rem; color:#555; border-top:1px solid #eee; padding-top:8px;">
+                    <strong>Verified By:</strong> Chinedu C. Ndukwu, <i>Senior Medical Scientist</i>
+                </div>`;
         }
     </script>
 </head>
