@@ -27,6 +27,8 @@
                 renderFatouReport();
             } else if(id === "MEC-0043") {
                 renderAbduReport();
+            } else if(id === "MEC-9912") {
+                renderLamaReport();
             } else {
                 alert("Tracking ID not found. Verify your reference key and try again.");
                 return;
@@ -35,6 +37,38 @@
     
         function renderFatouReport() {
             document.getElementById('reportDisplayArea').style.display = "block";
+        }
+        function renderLamaReport() {
+            const area = document.getElementById('reportDisplayArea');
+            area.style.display = "block";
+            area.innerHTML = `
+                <div style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 5px; margin-bottom: 10px;">
+                    <strong style="font-size: 1.1rem; color: #800020;">MECAPL HEALTHCARE SERVICES</strong><br>
+                    <small style="font-size:0.6rem; color:#555; font-weight:bold;">CLINICAL DOORSTEP PRECISION | THE GAMBIA</small>
+                </div>
+                <strong>Patient Name:</strong> LAMA<br>
+                <strong>Tracking ID:</strong> MEC-9912 | <strong>Date:</strong> 15/10/2026<br>
+                <strong>Logistics Anchor:</strong> <i>Insulated Cold-Chain Module Active (Km 8457 E)</i>
+                <hr style="border: 0.5px solid #ddd; margin: 10px 0;">
+                <strong style="color:#002366;">📋 PARASITOLOGY MICROSCOPY ARRAYS:</strong>
+                <table class="metric-table">
+                    <thead><tr><th>Assay Parameter</th><th>Observed Result</th><th>Reference</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>Giardia lamblia Cysts</td><td><strong>Moderate (++)</strong></td><td>Negative</td><td style="color:red; font-weight:bold;">REACTIVE 🚨</td></tr>
+                        <tr><td>Giardia Trophozoites</td><td><strong>Occasional (+/-)</strong></td><td>Negative</td><td style="color:red; font-weight:bold;">REACTIVE 🚨</td></tr>
+                        <tr><td>Fecal Pus Cells (WBC)</td><td><strong>3-5 / HPF</strong></td><td>0-2 / HPF</td><td style="color:orange; font-weight:bold;">MILD INFLAMMATION ⬆</td></tr>
+                        <tr><td>Epithelial Cells</td><td><strong>Present (+)</strong></td><td>Occasional</td><td>Mucosal Irritation</td></tr>
+                        <tr><td>Stool Macroscopy</td><td><strong>Loose / Mucoid</strong></td><td>Formed</td><td>Soft-Lumpy Matrix</td></tr>
+                    </tbody>
+                </table>
+                <div style="background:#fffde7; border-left:4px solid #800020; padding:10px; margin-top:10px; font-size:0.78rem;">
+                    <strong style="color:#800020;">⚡ CRISPY PROFESSIONAL MEDICAL DIRECTIVES:</strong><br>
+                    1. <strong>PROTOZOAL INFECTION CONFIRMED:</strong> High-power x40 microscopy maps a moderate burden of Giardia lamblia complexes. A targeted anti-protozoal therapeutic course (Metronidazole or Tinidazole) is clinically indicated to halt luminal cyst shedding.<br><br>
+                    2. <strong>MUCOSAL SUPPORT MANDATED:</strong> Mild cellular exudate (3-5 WBC/HPF) confirms surface wall irritation. Immediate fluid rebalancing with standard ORS and Zinc supplementation is recommended to accelerate epithelial healing.
+                </div>
+                <div style="margin-top:15px; font-size:0.65rem; color:#555; border-top:1px solid #eee; padding-top:8px;">
+                    <strong>Verified By:</strong> Chinedu C. Ndukwu, <i>Senior Medical Scientist</i>
+                </div>`;
         }
         function renderAbduReport() {
             const area = document.getElementById('reportDisplayArea');
